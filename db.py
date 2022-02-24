@@ -1,0 +1,16 @@
+import sqlite3
+
+conn = sqlite3.connect('database.db')
+print("Opened database successfully")
+conn.execute('DROP TABLE IF EXISTS inventory')
+conn.execute('DROP TABLE IF EXISTS issued')
+conn.execute('DROP TABLE IF EXISTS logindata')
+conn.execute('CREATE TABLE inventory (issuedfrom STRING, productname STRING, date STRING, dateofsurvey STRING, billno STRING, nameoffirm STRING, itemno STRING, quantity STRING, rateperitem STRING, totalamount STRING, crvno STRING)')
+conn.execute('CREATE TABLE issued (issuedfrom STRING, issuedto STRING, district STRING)')
+conn.execute('CREATE TABLE logindata (email STRING, password STRING)')
+cur = conn.cursor()
+cur.execute('INSERT INTO logindata (email, password) VALUES (?,?)', ("jagmohandixit686@gmail.com", "11111111"))
+cur.execute('INSERT INTO logindata (email, password) VALUES (?,?)', ("naiktanvi30@gmail.com", "11111111"))
+conn.commit()
+print("Table created successfully")
+conn.close()
