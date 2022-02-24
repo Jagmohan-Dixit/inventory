@@ -32,8 +32,26 @@ class IssuedForm(FlaskForm):
     issuedfrom = StringField("issuedfrom", validators=[dr])
     issuedto = StringField("issuedto", validators=[dr])
     district = StringField("district", validators=[dr])
+    quantity = StringField("quantity", validators=[dr])
     submit = SubmitField("Assign")
 
 
 class SearchForm(FlaskForm):
     search = StringField("search", validators=[dr], render_kw={"placeholder":"Search inventory..."})
+
+
+class User(FlaskForm):
+    name = StringField()
+    password = StringField()
+    email = StringField()
+    def to_json(self):
+        return {"name": self.name,
+                "email": self.email}
+    def is_authenticated(self):
+        return True
+    def is_active(self):
+        return True
+    def is_anonymous(self):
+        return False
+    def get_id(self):
+        return str(self.id)

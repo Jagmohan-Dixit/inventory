@@ -15,8 +15,6 @@
                     <div class="input-div">
                         {{form.hidden_tag()}}
                         {{form.issuedfrom(class="form-control d-block")}}
-                        <!-- <input type="text" class="form-control d-block" aria-label="Sizing example input"
-                            aria-describedby="inputGroup-sizing-lg"> -->
                     </div>
                 </div>
                 <div class="form-div">
@@ -25,9 +23,15 @@
                     </div>
                     <div class="input-div">
                         {{form.issuedto(class="form-control d-block")}}
-                        <!-- <input type="text" class="form-control d-block" aria-label="Sizing example input"
-                            aria-describedby="inputGroup-sizing-lg"> -->
+                        </div>
+                </div>
+                <div class="form-div">
+                    <div class="label-div">
+                        Quantity
                     </div>
+                    <div class="input-div">
+                        {{form.quantity(class="form-control d-block")}}
+                        </div>
                 </div>
                 <div class="form-div">
                     <div class="label-div">
@@ -35,9 +39,7 @@
                     </div>
                     <div class="input-div">
                         {{form.district(class="form-control d-block")}}
-                        <!-- <input type="text" class="form-control d-block" aria-label="Sizing example input"
-                            aria-describedby="inputGroup-sizing-lg"> -->
-                    </div>
+                        </div>
                 </div>
             </div>
 
