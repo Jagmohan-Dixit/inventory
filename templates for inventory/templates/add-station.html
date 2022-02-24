@@ -1,0 +1,29 @@
+{% extends 'base.html'%}
+{% block content %}
+<div class="d-flex flex-start  mb-0 content-outer">
+    <div class="current-tab-name text-center">
+        <h6 class="mt-2">Add Station</h6>
+    </div>
+</div>
+<div class="current-inner mt-0 mb-3">
+    <div class="d-flex flex-column justify-content-between add-station-main">
+        
+        <div class="d-flex  inputs">
+            <form method="POST" ></form>
+            <div class="form-div">
+                <div class="label-div">
+                    Station
+                </div>
+                <div class="input-div">
+                    <input type="text" class="form-control d-block" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg">
+                </div>
+            </div>
+        </div>
+        <div>
+            <button type="submit">Assign</button>
+        </form>
+        </div>
+  
+    </div>
+</div>
+{% endblock %}

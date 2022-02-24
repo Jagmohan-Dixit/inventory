@@ -1,0 +1,108 @@
+/* @import url('https://fonts.googleapis.com/css2?family=Raleway:wght@200;400&display=swap');
+body{
+    font-family: 'Raleway', sans-serif;
+} */
+body{
+    background-color:  #ECF3FF;
+}
+:root{
+    --color-primary : #2F80ED;
+    --primary-btn: #376AED;
+    --dark-blue-text: #2D4379
+}
+
+.login-left{
+    background-color: var(--color-primary) ;
+}
+.login-left-inner{
+    height: 100%;
+}
+.btn-primary{
+    background-color: var(--color-primary);
+}
+.db-text{
+    color: var(--dark-blue-text);
+}
+.horizontal-nav{
+    width: 100%;
+    height: 10vh;
+    background-color: #ffffff;
+}
+.logo{
+    width: 5%;
+}
+.header{
+    width: 75%;
+}
+.profile-nav{
+    width: 15% ;
+}
+.main-section{
+    width: 100%;
+}
+.veritcal-nav{
+    width: 5%;
+    height: 90vh;
+    background-color: #ffffff;
+}
+.current-section{
+    width: 90%;
+    height: 90vh;
+}
+.current-inner{
+    background-color: #ffffff;
+    width: 85%;
+    height: 75vh;
+    padding: 2%;
+}
+.content-outer{
+    width: 85%;
+}
+.issued-to-main{
+    width: 100%;
+    height: 100%;
+    background:url("../img/issued-bg.svg") no-repeat;
+    background-size: 100% 100%;
+}
+.current-tab-name{
+    width: 15%;
+    height: 5vh;
+    background-color: #ffffff;
+}
+
+.add-station-main{
+    width: 100%;
+    height: 100%;
+    background:url("../img/add-station.svg") no-repeat;
+    background-size: 100% 100%;
+}
+.add-item-main{
+    background:url("../img/add-item-bg.svg") no-repeat;
+    background-size: 100% 100%;
+}
+/* Form */
+.form-div{
+    height: 10vh;
+}
+.label-div{
+    width: 100%;
+    background-color: var(--color-primary);
+    color: #ffffff;
+    text-align: center;
+    padding: 5%;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+}
+.input-div, input{
+    border-bottom-left-radius: 6px;
+    border-bottom-right-radius: 6px;
+}
+
+button{
+    border: none;
+    border-radius: 24px;
+    padding: 0.5%;
+    width: 174px;
+    color: #ffffff;
+    background-color: var(--color-primary);
+}

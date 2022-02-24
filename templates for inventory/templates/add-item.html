@@ -1,0 +1,106 @@
+{% extends 'base.html'%}
+{% block content %}
+<div class="d-flex flex-start  mb-0 content-outer">
+    <div class="current-tab-name text-center">
+        <h6 class="mt-2">Add Item</h6>
+    </div>
+</div>
+<div class="current-inner mt-0 mb-3">
+    <div class="d-flex flex-column justify-content-between issued-to-main add-item-main">
+        <div class="d-flex justify-content-start flex-wrap inputs">
+            <div class="m-4 form-div">
+                <div class="label-div">
+                    From
+                </div>
+                <div class="input-div">
+                    <input type="text" class="form-control p-2" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg">
+                </div>
+            </div>
+            <div class="m-4 form-div">
+                <div class="label-div">
+                   Product Name
+                </div>
+                <div class="input-div">
+                    <input type="text" class="form-control  p-2" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg">
+                </div>
+            </div>
+            <div class="m-4 form-div">
+                <div class="label-div">
+                    Date
+                </div>
+                <div class="input-div">
+                    <input type="text" class="form-control p-2" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg">
+                </div>
+            </div>
+            <div class="m-4 form-div">
+                <div class="label-div">
+                    Date of Survey
+                </div>
+                <div class="input-div">
+                    <input type="text" class="form-control d-block" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg">
+                </div>
+            </div>
+            <div class="m-4 form-div">
+                <div class="label-div">
+                    Bill No. with Date
+                </div>
+                <div class="input-div">
+                    <input type="text" class="form-control  p-2" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg">
+                </div>
+            </div>
+            <div class="m-4 form-div">
+                <div class="label-div">
+                    Name of Firm
+                </div>
+                <div class="input-div">
+                    <input type="text" class="form-control  p-2" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg">
+                </div>
+            </div>
+            <div class="m-4 form-div">
+                <div class="label-div">
+                    Item No.
+                </div>
+                <div class="input-div">
+                    <input type="text" class="form-control p-2" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg">
+                </div>
+            </div>
+            <div class="m-4 form-div">
+                <div class="label-div">
+                    Quantity
+                </div>
+                <div class="input-div">
+                    <input type="text" class="form-control d-block p-2" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg">
+                </div>
+            </div>
+            <div class="m-4 form-div">
+                <div class="label-div">
+                    Rate per Item <br/>(Without GST)
+                </div>
+                <div class="input-div">
+                    <input type="text" class="form-control d-block p-2" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg">
+                </div>
+            </div>
+            <div class="m-4 form-div">
+                <div class="label-div">
+                    Amount Total (With GST)
+                </div>
+                <div class="input-div">
+                    <input type="text" class="form-control d-block p-2" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg">
+                </div>
+            </div>
+            <div class="m-4 form-div">
+                <div class="label-div">
+                    CRV No.
+                </div>
+                <div class="input-div">
+                    <input type="text" class="form-control d-block p-2" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg">
+                </div>
+            </div>
+        </div>
+        
+        <div class="m-4">
+            <button type="submit">Assign</button>
+        </div>
+    </div>
+</div>
+{% endblock %}
