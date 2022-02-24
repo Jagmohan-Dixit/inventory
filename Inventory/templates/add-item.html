@@ -5,7 +5,10 @@
         <h6 class="mt-2">Add Item</h6>
     </div>
 </div>
+
 <div class="current-inner mt-0 mb-3">
+    <form action="{{url_for('additem')}}" method="POST">
+        {{form.hidden_tag()}}
     <div class="d-flex flex-column justify-content-between issued-to-main add-item-main">
         <div class="d-flex justify-content-start flex-wrap inputs">
             <div class="m-4 form-div">
@@ -13,7 +16,8 @@
                     From
                 </div>
                 <div class="input-div">
-                    <input type="text" class="form-control p-2" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg">
+                    {{form.issuedfrom(class="form-control p-2")}}
+                    <!-- <input type="text" name="from" class="form-control p-2" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg"> -->
                 </div>
             </div>
             <div class="m-4 form-div">
@@ -21,7 +25,8 @@
                    Product Name
                 </div>
                 <div class="input-div">
-                    <input type="text" class="form-control  p-2" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg">
+                    {{form.productname(class="form-control p-2")}}
+                    <!-- <input type="text" name="productname" class="form-control  p-2" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg"> -->
                 </div>
             </div>
             <div class="m-4 form-div">
@@ -29,7 +34,8 @@
                     Date
                 </div>
                 <div class="input-div">
-                    <input type="text" class="form-control p-2" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg">
+                    {{form.date(class="form-control p-2" )}}
+                    <!-- <input type="text" name="date" class="form-control p-2" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg"> -->
                 </div>
             </div>
             <div class="m-4 form-div">
@@ -37,7 +43,8 @@
                     Date of Survey
                 </div>
                 <div class="input-div">
-                    <input type="text" class="form-control d-block" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg">
+                    {{form.dateofsurvey(class="form-control p-2" )}}
+                    <!-- <input type="text" name="dateofsurvey" class="form-control d-block" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg"> -->
                 </div>
             </div>
             <div class="m-4 form-div">
@@ -45,7 +52,8 @@
                     Bill No. with Date
                 </div>
                 <div class="input-div">
-                    <input type="text" class="form-control  p-2" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg">
+                    {{form.billno(class="form-control p-2" )}}
+                    <!-- <input type="text" name="billno" class="form-control  p-2" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg"> -->
                 </div>
             </div>
             <div class="m-4 form-div">
@@ -53,7 +61,8 @@
                     Name of Firm
                 </div>
                 <div class="input-div">
-                    <input type="text" class="form-control  p-2" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg">
+                    {{form.nameoffirm(class="form-control p-2" )}}
+                    <!-- <input type="text" name="nameoffirm" class="form-control  p-2" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg"> -->
                 </div>
             </div>
             <div class="m-4 form-div">
@@ -61,7 +70,8 @@
                     Item No.
                 </div>
                 <div class="input-div">
-                    <input type="text" class="form-control p-2" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg">
+                    {{form.itemno(class="form-control p-2" )}}
+                    <!-- <input type="text" name="itemno" class="form-control p-2" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg"> -->
                 </div>
             </div>
             <div class="m-4 form-div">
@@ -69,7 +79,8 @@
                     Quantity
                 </div>
                 <div class="input-div">
-                    <input type="text" class="form-control d-block p-2" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg">
+                    {{form.quantity(class="form-control p-2" )}}
+                    <!-- <input type="text" name="quantity" class="form-control d-block p-2" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg"> -->
                 </div>
             </div>
             <div class="m-4 form-div">
@@ -77,7 +88,8 @@
                     Rate per Item <br/>(Without GST)
                 </div>
                 <div class="input-div">
-                    <input type="text" class="form-control d-block p-2" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg">
+                    {{form.rateperitem(class="form-control p-2" )}}
+                    <!-- <input type="text" name="rateperitem" class="form-control d-block p-2" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg"> -->
                 </div>
             </div>
             <div class="m-4 form-div">
@@ -85,7 +97,8 @@
                     Amount Total (With GST)
                 </div>
                 <div class="input-div">
-                    <input type="text" class="form-control d-block p-2" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg">
+                    {{form.totalamount(class="form-control p-2" )}}
+                    <!-- <input type="text" name="totalamount" class="form-control d-block p-2" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg"> -->
                 </div>
             </div>
             <div class="m-4 form-div">
@@ -93,14 +106,18 @@
                     CRV No.
                 </div>
                 <div class="input-div">
-                    <input type="text" class="form-control d-block p-2" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg">
+                    {{form.crvno(class="form-control p-2" )}}
+                    <!-- <input type="text" name="crvno" class="form-control d-block p-2" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg"> -->
                 </div>
             </div>
+        </form>
         </div>
         
-        <div class="m-4">
-            <button type="submit">Assign</button>
+        <div class="m-4 p-4">
+            {{form.submit(class="button")}}
+            <!-- <button type="submit">Assign</button> -->
         </div>
     </div>
+</form>
 </div>
 {% endblock %}
