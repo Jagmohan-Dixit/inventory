@@ -36,13 +36,14 @@ def login():
         
         return render_template('login.html', form=form)
 
-    return redirect(url_for('mainledger'))
+    return redirect(url_for('login'))
 
 
 @app.route('/logout')
 def logout():
-    session.clear()
-    return redirect(url_for('home'))
+    if session.get('login'):
+        session.clear()
+        return redirect(url_for('home'))
     return redirect(url_for('login'))
 
 @app.route('/issueing', methods=["POST","GET"])
@@ -126,8 +127,8 @@ def additem():
             return redirect(url_for('mainledger'))
 
         return render_template("add-item.html", form=form)
-    return redirect(url_for('home'))  
-
+    return redirect(url_for('login'))  
+  
 
 @app.route('/mainledger', methods=["POST","GET"])
 def mainledger():
@@ -151,20 +152,20 @@ def mainledger():
     return redirect(url_for('login'))    
 
 
-# @app.context_processor
-# def override_url_for():
-#     return dict(url_for=dated_url_for)
+@app.context_processor
+def override_url_for():
+    return dict(url_for=dated_url_for)
  
 
 
-# def dated_url_for(endpoint, **values):
-#     if endpoint == 'static':
-#         filename = values.get('filename', None)
-#         if filename:
-#             file_path = os.path.join(app.root_path,
-#                                  endpoint, filename)
-#             values['q'] = int(os.stat(file_path).st_mtime)
-#     return url_for(endpoint, **values)
+def dated_url_for(endpoint, **values):
+    if endpoint == 'static':
+        filename = values.get('filename', None)
+        if filename:
+            file_path = os.path.join(app.root_path,
+                                 endpoint, filename)
+            values['q'] = int(os.stat(file_path).st_mtime)
+    return url_for(endpoint, **values)
 
 
 # @app.route('/edit', methods=["POST","GET"])
