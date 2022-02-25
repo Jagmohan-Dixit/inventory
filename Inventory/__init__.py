@@ -1,13 +1,12 @@
 from flask import Flask, redirect, render_template, request, url_for, jsonify, session
 import os 
 import sqlite3 as sql
-from Inventory.forms import LoginForm, AdditemForm, IssuedForm, SearchForm
+from inventory.forms import LoginForm, AdditemForm, IssuedForm, SearchForm
 
 
 app = Flask(__name__)
 
-SECRET_KEY = os.urandom(32)
-app.config['SECRET_KEY'] = SECRET_KEY
+app.config['SECRET_KEY'] = "mysecretkey"
 
 
 @app.route('/')
