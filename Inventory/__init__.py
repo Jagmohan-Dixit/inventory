@@ -1,7 +1,7 @@
 from flask import Flask, redirect, render_template, request, url_for, jsonify, session
 import os 
 import sqlite3 as sql
-from inventory.forms import LoginForm, AdditemForm, IssuedForm, SearchForm
+from Inventory.forms import LoginForm, AdditemForm, IssuedForm, SearchForm
 
 
 app = Flask(__name__)
