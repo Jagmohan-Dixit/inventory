@@ -1,4 +1,4 @@
-from inventory import app
+from Inventory import app
 
 
 if __name__ == '__main__':
