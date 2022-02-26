@@ -47,20 +47,25 @@
     <div class="d-flex main-section">
         <div class="d-flex flex-column justify-content-center align-items-center veritcal-nav">
             <div class="mb-3 v-nav-button">
-                <a href="{{url_for('additem')}}"><img
+                <a href="{{url_for('additem')}}" data-toggle="tooltip" data-placement="right" title="Add Items"><img
                         src="{{url_for('static', filename='img/icons/add-icon.svg')}}" /></a>
             </div>
             <div class=" mb-3 v-nav-button">
-                <a href="{{url_for('issuedto')}}"><img
+                <a href="{{url_for('issuedto')}}" data-toggle="tooltip" data-placement="right" title="Issued To"><img
                         src="{{url_for('static', filename='img/icons/issued-icon.svg')}}" /></a>
             </div>
             <div class=" mb-3 v-nav-button">
-                <a href="{{url_for('addstation')}}"><img
+                <a href="{{url_for('addstation')}}" data-toggle="tooltip" data-placement="right" title="Add Station" ><img
+                        src="{{url_for('static', filename='img/icons/issued-icon.svg')}}" /></a>
+            </div>
+            <div class=" mb-3 v-nav-button">
+                <a href="{{url_for('mainledger')}}" data-toggle="tooltip" data-placement="right" title="Ledger"><img
                         src="{{url_for('static', filename='img/icons/issued-icon.svg')}}" /></a>
             </div>
             {% if session['login'] %}
-            <div class=" mb-3 v-nav-button">
-                <a href="{{url_for('logout')}}"><img src="{{url_for('static', filename='img/icons/logout.svg')}}" /></a>
+            <div class=" mb-3 v-nav-button" >
+                <a href="{{url_for('logout')}}" data-toggle="tooltip" data-placement="right" title="Logout">
+                    <img src="{{url_for('static', filename='img/icons/logout.svg')}}" /></a>
             </div>
             {% endif %}
         </div>

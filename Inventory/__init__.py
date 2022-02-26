@@ -1,12 +1,14 @@
-from flask import Flask, redirect, render_template, request, flash, url_for, jsonify, session
+from flask import Flask, redirect, render_template, request, flash, url_for, jsonify, session, send_file
 import os 
 import sqlite3 as sql
 from Inventory.forms import LoginForm, AdditemForm, IssuedForm, SearchForm
-
-
+import pandas as pd
+import sys
 app = Flask(__name__)
 
 app.config['SECRET_KEY'] = "mysecretkey"
+
+
 
 
 @app.route('/')
@@ -52,6 +54,7 @@ def logout():
 @app.route('/issueing', methods=["POST","GET"])
 def issueing():
     if session.get('login'):
+        print("issuing", file=sys.stderr)
         productname = request.form['product']
         quantity = request.form['quantity']
         session['productname'] = productname
@@ -132,8 +135,10 @@ def additem():
             return redirect(url_for('mainledger'))
 
         return render_template("add-item.html", form=form)
-    return redirect(url_for('login'))  
-  
+    return redirect(url_for('login'))
+
+
+
 
 @app.route('/mainledger', methods=["POST","GET"])
 def mainledger():
@@ -143,34 +148,53 @@ def mainledger():
         cur = con.cursor()
         data = cur.execute("SELECT * FROM inventory")
         data = list(data)
-        
+
         if form.validate_on_submit():
+
             name = str(request.form['search']).lower()
             print(name)
-            data = cur.execute("SELECT * FROM inventory WHERE productname=?",(name,))
-            data = list(data) 
+            if name:
+                data = cur.execute("SELECT * FROM inventory WHERE productname=?",(name,))
+                data = list(data)
 
         con.commit()
         con.close() 
-        return render_template("main-ledger.html", form=form, data=data)   
-    
+        return render_template("main-ledger.html", form=form, data=data)
+
     return redirect(url_for('login'))    
 
+@app.route('/download', methods=["POST","GET"])
+def download():
+    con = sql.connect("database.db")
+    if request.form['type'] == "excel":
+        filepath = open(os.path.join('D:\Silicon Garage\inventory', 'data.xlsx'), 'wb')
+        writer = pd.ExcelWriter(filepath, engine='xlsxwriter')
 
-@app.context_processor
-def override_url_for():
-    return dict(url_for=dated_url_for)
+
+        # creating a dataframe
+        df = pd.read_sql("SELECT * FROM inventory", con)
+
+        print(type(df), file=sys.stderr)
+        df.to_excel(writer, sheet_name='inventory', index=False)
+        writer.save()
+
+    return send_file(os.path.join('D:\Silicon Garage\inventory\data.xlsx'), as_attachment=True)
+
+
+# @app.context_processor
+# def override_url_for():
+#     return dict(url_for=dated_url_for)
  
 
 
-def dated_url_for(endpoint, **values):
-    if endpoint == 'static':
-        filename = values.get('filename', None)
-        if filename:
-            file_path = os.path.join(app.root_path,
-                                 endpoint, filename)
-            values['q'] = int(os.stat(file_path).st_mtime)
-    return url_for(endpoint, **values)
+# def dated_url_for(endpoint, **values):
+#     if endpoint == 'static':
+#         filename = values.get('filename', None)
+#         if filename:
+#             file_path = os.path.join(app.root_path,
+#                                  endpoint, filename)
+#             values['q'] = int(os.stat(file_path).st_mtime)
+#     return url_for(endpoint, **values)
 
 
 # @app.route('/edit', methods=["POST","GET"])

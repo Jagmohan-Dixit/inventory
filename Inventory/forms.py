@@ -37,5 +37,5 @@ class IssuedForm(FlaskForm):
 
 
 class SearchForm(FlaskForm):
-    search = StringField("search", validators=[dr], render_kw={"placeholder":"Search inventory..."})
+    search = StringField("search",  render_kw={"placeholder":"Search inventory..."})
 
