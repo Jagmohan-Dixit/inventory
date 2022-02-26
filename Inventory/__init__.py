@@ -1,4 +1,4 @@
-from flask import Flask, redirect, render_template, request, url_for, jsonify, session
+from flask import Flask, redirect, render_template, request, flash, url_for, jsonify, session
 import os 
 import sqlite3 as sql
 from Inventory.forms import LoginForm, AdditemForm, IssuedForm, SearchForm
@@ -12,8 +12,10 @@ app.config['SECRET_KEY'] = "mysecretkey"
 @app.route('/')
 def home():
     if session.get('login'): 
+        flash("You are Logged In")
         return redirect(url_for('mainledger'))
 
+    flash("You are Not Logged In")
     return render_template('home.html')
 
 @app.route("/login", methods=["POST","GET"])
@@ -32,6 +34,7 @@ def login():
             print("Password : ",data[0][1])
             if data and str(data[0][0]) == email and str(data[0][1]) == password:
                 session['login'] = True
+                session['email'] = email
                 return redirect(url_for('mainledger'))
         
         return render_template('login.html', form=form)
@@ -82,7 +85,8 @@ def issuedto():
             conn.close()
             session.pop('productname')
             session.pop('quantity')
-            print("Updated")
+            flash("Assigned Successfully")
+            return redirect(url_for('mainledger'))
 
 
         return render_template('issuedTo.html', form=form)
@@ -120,6 +124,7 @@ def additem():
                 nameoffirm,itemno, quantity, rateperitem, totalamount, crvno) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                 """, (issuedfrom, productname,date, dateofsurvey, billno, nameoffirm,itemno, quantity, rateperitem, totalamount, crvno))
                 session['productname'] = productname
+                flash("Data Added Successfully")
                 print("Data Added Successfully") 
             
             con.commit()

@@ -25,7 +25,7 @@ class AdditemForm(FlaskForm):
     rateperitem = StringField("rateperitem", validators=[dr])
     totalamount = StringField("totalamount", validators=[dr])
     crvno = StringField("crvno", validators=[dr])
-    submit = SubmitField("Assign")
+    submit = SubmitField("Add")
 
 class IssuedForm(FlaskForm):
 
@@ -39,19 +39,3 @@ class IssuedForm(FlaskForm):
 class SearchForm(FlaskForm):
     search = StringField("search", validators=[dr], render_kw={"placeholder":"Search inventory..."})
 
-
-class User(FlaskForm):
-    name = StringField()
-    password = StringField()
-    email = StringField()
-    def to_json(self):
-        return {"name": self.name,
-                "email": self.email}
-    def is_authenticated(self):
-        return True
-    def is_active(self):
-        return True
-    def is_anonymous(self):
-        return False
-    def get_id(self):
-        return str(self.id)
