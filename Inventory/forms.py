@@ -3,6 +3,7 @@ from wtforms.validators import  DataRequired
 from wtforms import StringField, SubmitField, PasswordField,  SelectField, EmailField
 
 
+choice = [('1','District1'),('2','District2'),('3','District3')]
 
 dr = DataRequired()
 
@@ -38,7 +39,7 @@ class IssuedForm(FlaskForm):
 class AddStation(FlaskForm):
 
     station = StringField('Station', validators=[dr])
-    district = SelectField('District',validators=[dr], choices=[])
+    district = SelectField('District',validators=[dr], choices=choice)
     submit = SubmitField("Add Station")
 
 

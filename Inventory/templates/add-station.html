@@ -5,10 +5,8 @@
         <h6 class="mt-2">Add Station</h6>
     </div>
 </div>
-<div class="current-inner mt-0 mb-3">
-    <form  action="{{url_for('addstation')}}" method="POST" ></form>
+<form  action="{{url_for('addstation')}}" method="POST" class="current-inner mt-0 mb-3">
     <div class="d-flex flex-column justify-content-between add-station-main">
-
         <div class="d-flex flex-start inputs">
 
             <div class="form-div" >
@@ -32,9 +30,7 @@
         </div>
         <div>
             {{form.submit(class="button p-2")}}
-        </form>
         </div>
-  
     </div>
-</div>
+</form>
 {% endblock %}
