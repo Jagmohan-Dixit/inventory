@@ -1,0 +1,189 @@
+{
+  "districts": [{
+    "Shimla": [{
+     "1": "Sadar Shimla",
+      "2": "East Shimla",
+      "3": "New Shimla",
+      "4": "West Shimla",
+      "5": "Dhalli",
+      "6": "Sunni",
+      "7": "Chopal",
+      "8": "Kupvi",
+      "9": "Kotkhai",
+      "10": "Theog",
+      "11": "Deha",
+      "12": "Jhakri (PSOD)",
+      "13": "Kumarsain",
+      "14": "Rampur",
+      "15": "Jubbal",
+      "16": "Rohru",
+      "17": "Nerwa",
+      "18": "Chirgaon",
+      "19": "Women P.S. Shimla",
+      "20": "Nankhari"
+    }],
+  "Solan": [{
+    "1": "Parwanoo",
+    "2": "Kasauli",
+    "3": "Sadar Solan",
+    "4": "Kandaghat",
+    "5": "Dharampur",
+    "6": "Arki",
+    "7": "Baga (PSOD)",
+    "8": "Darlaghat",
+    "9": "Women P.S. Solan ",
+    "10":  "Kunihar"
+  }],
+  "Police Distt. Baddi":[{
+    "1": "Nalagarh",
+    "2": "Baddi",
+    "3":"Women P.S. Baddi",
+    "4": "Ramshahar",
+    "5": "Barotiwala",
+    "6": "Manpura"
+  }],
+  "Sirmaur": [{
+    "1":"Rajgarh",
+    "2":"Pachhad" ,
+    "3":"Shillai",
+    "4":"Paonta",
+    "5":"Renuka",
+    "6":"Nahan" ,
+    "7": "Sangrah",
+    "8":"Kala Amb",
+    "9":"Women P.S.Nahan",
+    "10":"Majra",
+    "11":"Puruwala"
+  }],
+  "Kinnaur": [{
+    "1":"Rekong Peo",
+    "2":"Pooh",
+    "3":"Sangla",
+    "4":"Bhawa Nagar",
+    "5":"Tapri",
+    "6": "Moorang" 
+  }],
+  "Bilaspur": [{
+    "1":"Bharari",
+    "2":"Ghumarwin",
+    "3":"Talai",
+    "4":"Barmana" ,
+    "5":"Sadar Bilaspur",
+    "6":"Swarghat" ,
+    "7":"Kot-Kehloor",
+    "8":"Women P.S.Bilaspur",
+    "9":"Jhandutta"
+  }],
+  "Mandi": [{
+    "1":"Sundernagar",
+    "2":"Gohar",
+    "3":"Janjehli" ,
+    "4":"Karsog",
+    "5":"Jogindernagar",
+    "6":"Sarkaghat" ,
+
+    "7":"Dharampur", 
+    "8":"Sadar Mandi",
+    "9":"Padhar", 
+    "10":"Balh",
+    "11":"Aut",
+    "12":"BSL Colony Sundernagar",
+    "13":"Women Police Station Mandi",
+    "14":"Hatli-Baldwara",
+    "15":"Dhanotu"
+  }],
+  "Kullu": [{
+    "1":"Nirmand",
+    "2":"Brow" ,
+    "3":"Ani",
+    "4":"Manali",
+    "5":"Banjar" ,
+    "6":"Kullu",
+    "7":"Bhuntar",
+    "8":"Women Police Station at Kullu",
+    "9":"Sainj" ,
+    "10":"Patli-Kuhal"
+  }],
+  "Lahaul & Spiti": [{
+    "1":"Kaza", 
+    "2":"Keylong",
+    "3":"Udaipur"
+
+  }],
+  "Hamirpur": [{
+    "1":"Barsar",
+    "2":"Sadar",
+    "3":"Bhoranj",
+    "4":"Nadaun",
+    "5":"Sujanpur",
+    "6": "Women P.S. Hamirpur"
+
+  }],
+  "Chamba": [{
+    "1":"Khairi" ,
+    "2":"Dalhousie" ,
+    "3": "Chowari",
+    "4":"Tissa",
+    "5": "Kihar",
+    "6":"Sadar", 
+    "7":"Bharmaur",
+    "8":"Pangi" ,
+    "9":"Women P.S. Chamba"
+
+  }], 
+  "Kangra": [{
+    "1":"Palampur",
+    "2":"Panchrukhi",
+    "3":"Lambagaon",
+    "4":"Nurpur",
+    "5":"Indora",
+    "6":"Damtal" ,
+    "7":"Dehra",
+    "8":"Jawalaji",
+    "9":"Jawali",
+    "10":"Baijnath",
+    "11":"Kangra",
+    "12":"Nagrota Bagwan",
+    "13": "Dharamshala",
+    "14":"Mecleodganj",
+    "15":"Shahpur",
+    "16":"Haripur",
+    "17":"Bhawarna",
+    "18":"Fatehpur",
+    "19": "Women P.S.Dharamshala" ,
+    "20": "P.S.Khundian",
+    "21":"Rakkar" ,
+    "22":"Gaggal" 
+
+  }],
+  "Una": [{
+    "1":"Sadar Una",
+    "2":"Haroli",
+    "3":"Bangana",
+    "4":"Amb",
+    "5":"Gagret",
+    "6":"Chintpurni",
+    "7": "Women P.S. Una"
+
+  }],
+  "Traffic, Tourist and Railway": [{
+    "1":"GRPS Shimla",
+    "2": "GRPS Kangra"
+
+  }],
+  "State CID": [{
+    "1":"State CID Shimla ",
+    "2":" Cyber Crime Shimla" 
+
+  }]
+  }
+  ],
+  "battalions": [{
+    "1st": "IRBN Bangarh(Una)",
+    "2nd": "IRBN Sakoh(Kangra)",
+    "3rd": "IRBN Pandoh(Mandi)",
+    "4th": "IRBN Jangal Beri(Hamirpur)",
+    "5th" :"IRBN Bassi(Bilaspur)",
+    "6th": "IRBN Kolar(Sirmaur)"
+  }]
+}

@@ -103,18 +103,18 @@ def addstation():
         conn = sql.connect('database.db')
         cur = conn.cursor()
         data = cur.execute('SELECT * FROM district').fetchall()
-        # for item in data:
-        #     val = str(item[0])
-        #     distname = item[1]
-        #     form.district.choices += [(val, distname)]
-        # print(form.form_errors, file=sys.stderr)
+        for item in data:
+            val = str(item[0])
+            distname = item[1]
+            form.district.choices += [(val, distname)]
+        print(form.form_errors, file=sys.stderr)
 
         if form.validate_on_submit():
-            # print(form.district.data, file=sys.stderr)
+            print(form.district.data, file=sys.stderr)
             cur.execute('''INSERT INTO policestation (psname, districtId) VALUES (?,?)''', (form.station.data, form.district.data))
             flash('Station added successfully')
             conn.commit()
-            # conn.close()
+            conn.close()
             return redirect(url_for('mainledger'))
 
         conn.close()

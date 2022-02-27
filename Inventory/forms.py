@@ -1,11 +1,10 @@
 from flask_wtf import FlaskForm
 from wtforms.validators import  DataRequired
-from wtforms import StringField, SubmitField, PasswordField,  SelectField, EmailField
+from wtforms import StringField, SubmitField, PasswordField,  SelectField, EmailField, DateField, IntegerField
 
-
-choice = [('1','District1'),('2','District2'),('3','District3')]
 
 dr = DataRequired()
+
 
 class LoginForm(FlaskForm):
 
@@ -13,16 +12,17 @@ class LoginForm(FlaskForm):
     password = PasswordField("Password", validators=[dr], render_kw={"placeholder":"Password"})
     submit = SubmitField("Login")
 
+
 class AdditemForm(FlaskForm):
 
     issuedfrom = StringField("from", validators=[dr])
     productname = StringField("productname", validators=[dr])
-    date = StringField("date", validators=[dr])
-    dateofsurvey = StringField("dateofsurvey", validators=[dr])
+    date = DateField("date", validators=[dr])
+    dateofsurvey = DateField("dateofsurvey", validators=[dr])
     billno = StringField("billno", validators=[dr])
     nameoffirm = StringField("nameoffirm", validators=[dr])
     itemno = StringField("itemno", validators=[dr])
-    quantity = StringField("quantity", validators=[dr])
+    quantity = IntegerField("quantity", validators=[dr])
     rateperitem = StringField("rateperitem", validators=[dr])
     totalamount = StringField("totalamount", validators=[dr])
     crvno = StringField("crvno", validators=[dr])
@@ -33,13 +33,13 @@ class IssuedForm(FlaskForm):
     issuedfrom = StringField("issuedfrom", validators=[dr])
     issuedto = StringField("issuedto", validators=[dr])
     district = StringField("district", validators=[dr])
-    quantity = StringField("quantity", validators=[dr])
+    quantity = IntegerField("quantity", validators=[dr])
     submit = SubmitField("Assign")
 
 class AddStation(FlaskForm):
 
     station = StringField('Station', validators=[dr])
-    district = SelectField('District',validators=[dr], choices=choice)
+    district = SelectField('District',validators=[dr], choices=[])
     submit = SubmitField("Add Station")
 
 
