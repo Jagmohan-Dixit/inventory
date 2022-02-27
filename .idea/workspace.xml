@@ -6,6 +6,7 @@
       <change beforePath="$PROJECT_DIR$/Inventory/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/Inventory/__init__.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Inventory/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/Inventory/forms.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Inventory/templates/add-station.html" beforeDir="false" afterPath="$PROJECT_DIR$/Inventory/templates/add-station.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Inventory/templates/issuedTo.html" beforeDir="false" afterPath="$PROJECT_DIR$/Inventory/templates/issuedTo.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/database.db" beforeDir="false" afterPath="$PROJECT_DIR$/database.db" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/db.py" beforeDir="false" afterPath="$PROJECT_DIR$/db.py" afterDir="false" />
     </list>

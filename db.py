@@ -6,10 +6,12 @@ print("Opened database successfully")
 conn.execute('DROP TABLE IF EXISTS inventory')
 conn.execute('DROP TABLE IF EXISTS issued')
 conn.execute('DROP TABLE IF EXISTS logindata')
-conn.execute('DROP TABLE IF EXISTS policestation')
-conn.execute('DROP TABLE IF EXISTS district')
-conn.execute('DROP TABLE IF EXISTS battalions')
 conn.execute('DROP TABLE IF EXISTS issuedto')
+conn.execute('DROP TABLE IF EXISTS policestation')
+conn.execute('DROP TABLE IF EXISTS battalions')
+conn.execute('DROP TABLE IF EXISTS district')
+
+
 
 
 # conn.execute('CREATE TABLE inventory (issuedfrom STRING, productname STRING, date STRING, dateofsurvey STRING, billno STRING, nameoffirm STRING, itemno STRING, quantity STRING, rateperitem STRING, totalamount STRING, crvno STRING)')
