@@ -9,6 +9,7 @@
   <div class="d-flex flex-column justify-content-between ">
 
     <form action="{{url_for('mainledger')}}" method="POST">
+        <input type="hidden" name="type" value="not-excel">
       <div class="d-flex justify-content-start inputs">
         <div class="input-group mb-3 ">
           <span class="input-group-text" style="background: #ffffff;border:none" id="basic-addon1"><img
@@ -43,15 +44,21 @@
             <td>${{item[8]}}</td>
             <td>
               <form action="{{url_for('issueing')}}" method="POST">
-                  <input type="hidden" name="product" value={{item[1]}}>
                   <input type="hidden" name="quantity" value={{item[7]}}>
-                  <button type="submit" class="p-2">Assign</button>
+                  <input type="hidden" name="product" value={{item[1]}}>
+                  <input type="hidden" name="type" value='assign'>
+                  <button type="submit" class="p-2 w-50">Assign</button>
               </form>
             </td>
           </tr>
         </tbody>
         {% endfor %}
       </table>
+        {{df}}
+        <form method="POST" action="{{url_for('download')}}">
+            <input type="hidden" name="type" value="excel">
+        <button type="submit" class="p-2 w-25">Download Excel</button>
+            </form>
     </div>
     {% else %}
     <center><h1 class="p-4">No Record Found!</h1></center>
