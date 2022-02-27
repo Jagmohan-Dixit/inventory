@@ -1,7 +1,7 @@
 from flask import Flask, redirect, render_template, request, flash, url_for, jsonify, session, send_file
 import os 
 import sqlite3 as sql
-from Inventory.forms import LoginForm, AdditemForm, IssuedForm, SearchForm
+from Inventory.forms import LoginForm, AdditemForm, IssuedForm, SearchForm, AddStation
 import pandas as pd
 import sys
 app = Flask(__name__)
@@ -96,10 +96,29 @@ def issuedto():
 
     return redirect(url_for('login'))
 
-@app.route("/addstation")
+@app.route("/addstation",  methods=["POST","GET"])
 def addstation():
     if session.get('login'):
-        return render_template('add-station.html')
+        form = AddStation()
+        conn = sql.connect('database.db')
+        cur = conn.cursor()
+        data = cur.execute('SELECT * FROM district').fetchall()
+        for item in data:
+            val = str(item[0])
+            distname = item[1]
+            form.district.choices += [(val, distname)]
+        print(form.form_errors, file=sys.stderr)
+
+        if form.validate_on_submit():
+            print(form.district.data, file=sys.stderr)
+            cur.execute('''INSERT INTO policestation (psname, districtId) VALUES (?,?)''', (form.station.data, form.district.data))
+            flash('Station added successfully')
+            conn.commit()
+            conn.close()
+            return redirect(url_for('mainledger'))
+
+        conn.close()
+        return render_template('add-station.html', form = form)
 
     return redirect(url_for('login'))
 

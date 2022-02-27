@@ -1,7 +1,7 @@
 from flask_wtf import FlaskForm
 from wtforms.validators import  DataRequired
-from wtforms import StringField, SubmitField, PasswordField, IntegerField, SelectField, EmailField, DateTimeLocalField, HiddenField
-from flask_wtf.file import FileField, FileAllowed
+from wtforms import StringField, SubmitField, PasswordField,  SelectField, EmailField
+
 
 
 dr = DataRequired()
@@ -34,6 +34,12 @@ class IssuedForm(FlaskForm):
     district = StringField("district", validators=[dr])
     quantity = StringField("quantity", validators=[dr])
     submit = SubmitField("Assign")
+
+class AddStation(FlaskForm):
+
+    station = StringField('Station', validators=[dr])
+    district = SelectField('District',validators=[dr], choices=[])
+    submit = SubmitField("Add Station")
 
 
 class SearchForm(FlaskForm):
