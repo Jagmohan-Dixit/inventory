@@ -1,10 +1,10 @@
-import re
 from flask import Flask, redirect, render_template, request, json, flash, url_for, jsonify, session, send_file
-import os 
+from mailmerge import MailMerge
 import sqlite3 as sql
 from Inventory.forms import LoginForm, AdditemForm, SearchForm, AddStation
 import pandas as pd
-import sys
+import sys,os
+from docx2pdf import convert
 from Inventory.data import district, stationdata, battalion
 
 app = Flask(__name__)
@@ -32,8 +32,6 @@ def login():
             cur = conn.cursor()
             data = cur.execute('SELECT * FROM logindata WHERE email = ?', (email,))
             data = list(data)
-            print("Email : ",data[0][0]) 
-            print("Password : ",data[0][1])
             if data and str(data[0][0]) == email and str(data[0][1]) == password:
                 session['login'] = True
                 session['email'] = email
@@ -72,14 +70,14 @@ def issueing():
             return render_template('showAssignDetails.html', data = data)
     
     return redirect(url_for('login'))
-
-@app.route('/assigned-history')
-def showAssignedHistory():
-    if session.get('login'):
-        productname = request.form['product']
-        print(productname, file=sys.stderr)
-        return redirect(url_for('issuedto'))
-    return redirect(url_for('login'))
+#
+# @app.route('/assigned-history')
+# def showAssignedHistory():
+#     if session.get('login'):
+#         productname = request.form['product']
+#         print(productname, file=sys.stderr)
+#         return redirect(url_for('issuedto'))
+#     return redirect(url_for('login'))
 
 
 @app.route("/issuedto", methods=["POST","GET"])
@@ -113,31 +111,31 @@ def issuedto():
 
     return redirect(url_for('login'))
 
-@app.route("/addstation",  methods=["POST","GET"])
-def addstation():
-    if session.get('login'):
-        form = AddStation()
-        conn = sql.connect('database.db')
-        cur = conn.cursor()
-        data = cur.execute('SELECT * FROM district').fetchall()
-        for item in data:
-            val = str(item[0])
-            distname = item[1]
-            form.district.choices += [(val, distname)]
-        print(form.form_errors, file=sys.stderr)
-
-        if form.validate_on_submit():
-            print(form.district.data, file=sys.stderr)
-            cur.execute('''INSERT INTO policestation (psname, districtId) VALUES (?,?)''', (form.station.data, form.district.data))
-            flash('Station added successfully')
-            conn.commit()
-            conn.close()
-            return redirect(url_for('mainledger'))
-
-        conn.close()
-        return render_template('showAssignDetails.html', form = form)
-
-    return redirect(url_for('login'))
+# @app.route("/addstation",  methods=["POST","GET"])
+# def addstation():
+#     if session.get('login'):
+#         form = AddStation()
+#         conn = sql.connect('database.db')
+#         cur = conn.cursor()
+#         data = cur.execute('SELECT * FROM district').fetchall()
+#         for item in data:
+#             val = str(item[0])
+#             distname = item[1]
+#             form.district.choices += [(val, distname)]
+#         print(form.form_errors, file=sys.stderr)
+#
+#         if form.validate_on_submit():
+#             print(form.district.data, file=sys.stderr)
+#             cur.execute('''INSERT INTO policestation (psname, districtId) VALUES (?,?)''', (form.station.data, form.district.data))
+#             flash('Station added successfully')
+#             conn.commit()
+#             conn.close()
+#             return redirect(url_for('mainledger'))
+#
+#         conn.close()
+#         return render_template('showAssignDetails.html', form = form)
+#
+#     return redirect(url_for('login'))
 
 @app.route('/additem', methods=["POST","GET"])
 def additem():
@@ -145,6 +143,7 @@ def additem():
 
         form = AdditemForm()
         if form.validate_on_submit():
+
             issuedfrom = str(request.form['issuedfrom']).lower()
             productname = str(request.form['productname']).lower()
             date = str(request.form['date'])
@@ -156,7 +155,25 @@ def additem():
             rateperitem = str(request.form['rateperitem'])
             totalamount = str(request.form['totalamount'])
             crvno = str(request.form['crvno']).lower()
-
+            dir_path = os.path.dirname(os.path.realpath(__file__))
+            new_file_path = os.path.join(dir_path, 'item_template.docx')
+            template = 'item_template.docx'
+            document = MailMerge(new_file_path)
+            document.merge(
+                issuedfrom = issuedfrom,
+                productName = productname,
+                date = date,
+                dosurvey = dateofsurvey,
+                billno = billno,
+                nameoffirm = nameoffirm,
+                itemno = itemno,
+                quantity = quantity,
+                rateperitem = rateperitem,
+                totalamount = totalamount,
+                crvno = crvno
+            )
+            document.write(os.path.join(dir_path, 'output.docx'))
+            convert(os.path.join(dir_path, 'output.docx'),os.path.join(dir_path, 'output.pdf'))
             with sql.connect("database.db") as con:
                 cur = con.cursor()
                 cur.execute("""INSERT INTO inventory (issuedfrom, productname,date, dateofsurvey, billno, 
@@ -168,7 +185,7 @@ def additem():
             
             con.commit()
             con.close()
-            return redirect(url_for('mainledger'))
+            return send_file('output.pdf', as_attachment=True)
 
         return render_template("add-item.html", form=form)
     return redirect(url_for('login'))
@@ -203,7 +220,9 @@ def mainledger():
 def download():
     con = sql.connect("database.db")
     if request.form['type'] == "excel":
-        filepath = open(os.path.join('D:\Silicon Garage\inventory', 'data.xlsx'), 'wb')
+        dir_path = os.path.dirname(os.path.realpath(__file__))
+        new_file_path = os.path.join(dir_path, 'data.xlsx')
+        filepath = open(new_file_path, 'wb')
         writer = pd.ExcelWriter(filepath, engine='xlsxwriter')
 
 
@@ -214,16 +233,13 @@ def download():
         df.to_excel(writer, sheet_name='inventory', index=False)
         writer.save()
 
-    return send_file(os.path.join('D:\Silicon Garage\inventory\data.xlsx'), as_attachment=True)
+    return send_file('data.xlsx', as_attachment=True)
 
 @app.route('/district', methods=["POST","GET"])
 def district():
-    print("Calling")
     district = request.get_json('name')
     session['district'] = district['name']
-    print(session['district'])
     return jsonify(status="success", data=district)
-    # return 
 
 @app.context_processor
 def override_url_for():

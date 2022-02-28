@@ -115,3 +115,26 @@ button{
     color: #ffffff;
     background-color: var(--color-primary);
 }
+.table-div{
+    height: 60vh;
+    overflow-y: scroll;
+    overflow: scroll;
+    overflow-x: hidden;
+    overflow-y:auto
+}
+.table-div::-webkit-scrollbar
+{
+	width: 7px;
+	background-color: #dfdfdf;
+}
+
+.table-div::-webkit-scrollbar-thumb
+{
+	background-color:  var(--color-primary);
+  border-radius: 50px;
+}
+.table-div::-webkit-scrollbar-thumb
+{
+	background-color:  var(--color-primary);
+  border-radius: 50px;
+}
