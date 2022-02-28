@@ -32,20 +32,20 @@
             <th scope="col">Product Name</th>
             <th scope="col">Quantity</th>
             <th scope="col">Rate/Item</th>
-            <th scope="col"><span class="p-4"></span>Assign</th>
+            <th scope="col"><span class="p-3"></span>Assign</th>
           </tr>
         </thead>
         {% for item in data%}
         <tbody>
           <tr>
             <th scope="row">{{item[6]}}</th>
-            <td>{{item[1].upper()}}</td>
-            <td>{{item[7]}}</td>
-            <td>${{item[8]}}</td>
+            <td>{{item[2].upper()}}</td>
+            <td>{{item[8]}}</td>
+            <td>${{item[9]}}</td>
             <td>
               <form action="{{url_for('issueing')}}" method="POST">
-                  <input type="hidden" name="quantity" value={{item[7]}}>
-                  <input type="hidden" name="product" value={{item[1]}}>
+                  <input type="hidden" name="quantity" value={{item[8]}}>
+                  <input type="hidden" name="product" value={{item[2]}}>
                   <input type="hidden" name="type" value='assign'>
                   <button type="submit" class="p-2 w-50">Assign</button>
               </form>

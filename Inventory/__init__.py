@@ -1,15 +1,15 @@
-from flask import Flask, redirect, render_template, request, flash, url_for, jsonify, session, send_file
+import re
+from flask import Flask, redirect, render_template, request, json, flash, url_for, jsonify, session, send_file
 import os 
 import sqlite3 as sql
-from Inventory.forms import LoginForm, AdditemForm, IssuedForm, SearchForm, AddStation
+from Inventory.forms import LoginForm, AdditemForm, SearchForm, AddStation
 import pandas as pd
 import sys
+from Inventory.data import district, stationdata, battalion
+
 app = Flask(__name__)
 
 app.config['SECRET_KEY'] = "mysecretkey"
-
-
-
 
 @app.route('/')
 def home():
@@ -69,18 +69,21 @@ def issueing():
 @app.route("/issuedto", methods=["POST","GET"])
 def issuedto():
     if session.get('login'):
-        form = IssuedForm()
 
-        if form.validate_on_submit():
-            issuedfrom = request.form['issuedfrom']
-            issuedto = request.form['issuedto']
-            district = request.form['district']
-            qty = request.form['quantity']
+        issuedfrom = request.form.get('issuedfrom')
+        issuedto = request.form.get('issuedto')
+        district = request.form.get('district')
+        station = request.form.get('station')
+        qty = request.form.get('quantity')
 
+        if district:
+            print(district)
+
+        if issuedfrom and issuedto and district and qty and district and station:
             conn = sql.connect("database.db")
             cur = conn.cursor()
-            cur.execute("""INSERT INTO issued (issuedfrom, productname, issuedto, district, quantity)
-                    VALUES (?,?,?,?,?)""", (issuedfrom, session['productname'], issuedto, district, qty))
+            cur.execute("""INSERT INTO issued (issuedfrom, productname, issuedto, district, quantity, station)
+                VALUES (?,?,?,?,?,?)""", (issuedfrom, session['productname'], issuedto, district, qty, station))
  
             quantity = int(session['quantity']) - int(qty)
             cur.execute("UPDATE inventory SET quantity=? WHERE productname=?", (quantity, session['productname'],))
@@ -88,11 +91,9 @@ def issuedto():
             conn.close()
             session.pop('productname')
             session.pop('quantity')
-            flash("Assigned Successfully")
             return redirect(url_for('mainledger'))
 
-
-        return render_template('issuedTo.html', form=form)
+        return render_template('issuedTo.html',count=1,data=stationdata, battalions=battalion)
 
     return redirect(url_for('login'))
 
@@ -157,8 +158,6 @@ def additem():
     return redirect(url_for('login'))
 
 
-
-
 @app.route('/mainledger', methods=["POST","GET"])
 def mainledger():
     if session.get('login'):    
@@ -182,6 +181,8 @@ def mainledger():
 
     return redirect(url_for('login'))    
 
+
+
 @app.route('/download', methods=["POST","GET"])
 def download():
     con = sql.connect("database.db")
@@ -199,6 +200,14 @@ def download():
 
     return send_file(os.path.join('D:\Silicon Garage\inventory\data.xlsx'), as_attachment=True)
 
+@app.route('/district', methods=["POST","GET"])
+def district():
+    print("Calling")
+    district = request.get_json('name')
+    session['district'] = district['name']
+    print(session['district'])
+    return jsonify(status="success", data=district)
+    # return 
 
 # @app.context_processor
 # def override_url_for():
@@ -221,7 +230,7 @@ def download():
     # conn = sql.connect("database.db")
     # conn.execute('CREATE TABLE logindata (email STRING, password STRING)')
     # conn.execute('DROP TABLE IF EXISTS issued')
-    # conn.execute('CREATE TABLE issued (issuedfrom STRING, productname STRING, issuedto STRING, district STRING, quantity STRING)')
+    # conn.execute('CREATE TABLE issued (issuedfrom STRING, productname STRING, issuedto STRING, district STRING, battalion STRING, station STRING, quantity STRING)')
     # cur = conn.cursor()
     # cur.execute('INSERT INTO logindata (email, password) VALUES (?,?)', ("jagmohandixit686@gmail.com", "11111111"))
     # cur.execute('INSERT INTO logindata (email, password) VALUES (?,?)', ("naiktanvi30@gmail.com", "11111111"))
