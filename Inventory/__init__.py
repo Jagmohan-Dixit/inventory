@@ -54,16 +54,32 @@ def logout():
 @app.route('/issueing', methods=["POST","GET"])
 def issueing():
     if session.get('login'):
-        print("issuing", file=sys.stderr)
-        productname = request.form['product']
-        quantity = request.form['quantity']
-        session['productname'] = productname
-        session['quantity'] = quantity
-        print(productname)
-        return redirect(url_for('issuedto'))
+        if request.form['type'] == 'assign':
+            print("issuing", file=sys.stderr)
+            productname = request.form['product']
+            quantity = request.form['quantity']
+            session['productname'] = productname
+            session['quantity'] = quantity
+            print(productname)
+            return redirect(url_for('issuedto'))
+        else:
+            conn = sql.connect("database.db")
+            cur = conn.cursor()
+            productname = request.form['product']
+            data = cur.execute('''SELECT * FROM issued WHERE productname=?''',(productname,)).fetchall()
+
+            print(data, file=sys.stderr)
+            return render_template('showAssignDetails.html', data = data)
     
     return redirect(url_for('login'))
 
+@app.route('/assigned-history')
+def showAssignedHistory():
+    if session.get('login'):
+        productname = request.form['product']
+        print(productname, file=sys.stderr)
+        return redirect(url_for('issuedto'))
+    return redirect(url_for('login'))
 
 
 @app.route("/issuedto", methods=["POST","GET"])
@@ -119,7 +135,7 @@ def addstation():
             return redirect(url_for('mainledger'))
 
         conn.close()
-        return render_template('add-station.html', form = form)
+        return render_template('showAssignDetails.html', form = form)
 
     return redirect(url_for('login'))
 
@@ -209,20 +225,20 @@ def district():
     return jsonify(status="success", data=district)
     # return 
 
-# @app.context_processor
-# def override_url_for():
-#     return dict(url_for=dated_url_for)
+@app.context_processor
+def override_url_for():
+    return dict(url_for=dated_url_for)
  
 
 
-# def dated_url_for(endpoint, **values):
-#     if endpoint == 'static':
-#         filename = values.get('filename', None)
-#         if filename:
-#             file_path = os.path.join(app.root_path,
-#                                  endpoint, filename)
-#             values['q'] = int(os.stat(file_path).st_mtime)
-#     return url_for(endpoint, **values)
+def dated_url_for(endpoint, **values):
+    if endpoint == 'static':
+        filename = values.get('filename', None)
+        if filename:
+            file_path = os.path.join(app.root_path,
+                                 endpoint, filename)
+            values['q'] = int(os.stat(file_path).st_mtime)
+    return url_for(endpoint, **values)
 
 
 # @app.route('/edit', methods=["POST","GET"])

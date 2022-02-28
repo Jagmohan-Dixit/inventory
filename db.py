@@ -60,7 +60,6 @@ conn.execute('''CREATE TABLE issuedTo
     quantity STRING)''')
 
 
-
 cur = conn.cursor()
 
 

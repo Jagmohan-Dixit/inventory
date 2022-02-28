@@ -33,6 +33,7 @@
             <th scope="col">Quantity</th>
             <th scope="col">Rate/Item</th>
             <th scope="col"><span class="p-3"></span>Assign</th>
+            <th class="text-center" scope="col"><span class="p-3" ></span>Assigning Details</th>
           </tr>
         </thead>
         {% for item in data%}
@@ -41,15 +42,23 @@
             <th scope="row">{{item[6]}}</th>
             <td>{{item[2].upper()}}</td>
             <td>{{item[8]}}</td>
-            <td>${{item[9]}}</td>
-            <td>
+            <td>&#8377; {{item[9]}}</td>
+            <td class="text-center">
               <form action="{{url_for('issueing')}}" method="POST">
                   <input type="hidden" name="quantity" value={{item[8]}}>
                   <input type="hidden" name="product" value={{item[2]}}>
                   <input type="hidden" name="type" value='assign'>
-                  <button type="submit" class="p-2 w-50">Assign</button>
+                  <button type="submit" class="p-1 w-75">Assign</button>
               </form>
+
             </td>
+              <td class="text-center">
+                  <form method="POST" action="{{url_for('issueing')}}">
+                    <input type="hidden" name="product" value={{item[2]}}>
+                    <input type="hidden" name="type" value='assignhistory'>
+                    <button type="submit" class="p-1 w-50">Assigned</button>
+                </form>
+              </td>
           </tr>
         </tbody>
         {% endfor %}
