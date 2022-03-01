@@ -63,12 +63,11 @@
         </tbody>
         {% endfor %}
       </table>
-        {{df}}
-        <form method="POST" action="{{url_for('download')}}">
-            <input type="hidden" name="type" value="excel">
-        <button type="submit" class="p-2 w-25">Download Excel</button>
-            </form>
     </div>
+    <form method="POST" action="{{url_for('download')}}" style="margin: 1rem; margin-bottom: 5rem; display: flex;justify-content: center;">
+      <input type="hidden" name="type" value="excel">
+      <button type="submit" class="p-2 w-25">Download Excel</button>
+    </form>
     {% else %}
     <center><h1 class="p-4">No Record Found!</h1></center>
     {% endif %}
