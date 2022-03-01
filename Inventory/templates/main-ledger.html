@@ -25,6 +25,11 @@
 {% if data %}
 
     <div class="table-div">
+        {% if error %}
+              <div class="alert alert-danger" role="alert">
+                     {{error}}
+              </div>
+       {% endif %}
       <table class="table table-striped table-hover">
         <thead>
           <tr>
@@ -36,8 +41,9 @@
             <th class="text-center" scope="col"><span class="p-3" ></span>Assigning Details</th>
           </tr>
         </thead>
+          <tbody class="table-body">
         {% for item in data%}
-        <tbody class="table-body">
+
           <tr>
             <th scope="row">{{item[6]}}</th>
             <td>{{item[2].upper()}}</td>
@@ -60,14 +66,16 @@
                 </form>
               </td>
           </tr>
-        </tbody>
+
         {% endfor %}
+          </tbody>
       </table>
     </div>
+      <div>
     <form method="POST" action="{{url_for('download')}}" style="margin: 1rem; margin-bottom: 5rem; display: flex;justify-content: center;">
       <input type="hidden" name="type" value="excel">
       <button type="submit" class="p-2 w-25">Download Excel</button>
-    </form>
+    </form></div>
     {% else %}
     <center><h1 class="p-4">No Record Found!</h1></center>
     {% endif %}

@@ -1,7 +1,7 @@
 from flask import Flask, redirect, render_template, request, json, flash, url_for, jsonify, session, send_file
 from mailmerge import MailMerge
 import sqlite3 as sql
-from Inventory.forms import LoginForm, AdditemForm, SearchForm, AddStation
+from Inventory.forms import LoginForm, AdditemForm, SearchForm
 import pandas as pd
 import sys,os
 from docx2pdf import convert
@@ -11,16 +11,18 @@ app = Flask(__name__)
 
 app.config['SECRET_KEY'] = "mysecretkey"
 
-@app.route('/')
-def home():
-    if session.get('login'): 
-        flash("You are Logged In")
-        return redirect(url_for('mainledger'))
+# @app.route('/')
+# def home():
+#     if session.get('login'):
+#         flash("You are Logged In")
+#         return redirect(url_for('mainledger'))
+#
+#     flash("You are Not Logged In")
+#     return render_template('login.html')
 
-    flash("You are Not Logged In")
-    return render_template('home.html')
 
-@app.route("/login", methods=["POST","GET"])
+
+@app.route("/", methods=["POST","GET"])
 def login():
     if session.get('login') == None:
         form = LoginForm()
@@ -28,14 +30,20 @@ def login():
             email = request.form['email']
             password = request.form['password']
 
-            conn = sql.connect('database.db')
-            cur = conn.cursor()
-            data = cur.execute('SELECT * FROM logindata WHERE email = ?', (email,))
-            data = list(data)
+            try:
+                conn = sql.connect('database.db')
+                cur = conn.cursor()
+                data = cur.execute('SELECT * FROM logindata WHERE email = ?', (email,))
+                data = list(data)
+            except:
+                return render_template('login.html',form = form, error = "Unable to fetch data from database")
+
             if data and str(data[0][0]) == email and str(data[0][1]) == password:
                 session['login'] = True
                 session['email'] = email
                 return redirect(url_for('mainledger'))
+            else:
+                return render_template('login.html', form=form, error = "Bad credentials")
         
         return render_template('login.html', form=form)
 
@@ -46,7 +54,6 @@ def login():
 def logout():
     if session.get('login'):
         session.clear()
-        return redirect(url_for('home'))
     return redirect(url_for('login'))
 
 @app.route('/issueing', methods=["POST","GET"])
@@ -205,12 +212,16 @@ def mainledger():
             name = str(request.form['search']).lower()
             print(name)
             if name:
-                data = cur.execute("SELECT * FROM inventory WHERE productname=?",(name,))
-                data = list(data)
-
+                try:
+                    data = cur.execute("SELECT * FROM inventory WHERE productname=?",(name,))
+                    data = list(data)
+                    return render_template("main-ledger.html", form=form, data=data, error="")
+                except:
+                    return render_template("main-ledger.html", form=form, data=data,
+                                           error="Unable to fetch data from database")
         con.commit()
         con.close() 
-        return render_template("main-ledger.html", form=form, data=data)
+        return render_template("main-ledger.html", form=form, data=data, error = "")
 
     return redirect(url_for('login'))    
 
@@ -220,20 +231,25 @@ def mainledger():
 def download():
     con = sql.connect("database.db")
     if request.form['type'] == "excel":
-        dir_path = os.path.dirname(os.path.realpath(__file__))
-        new_file_path = os.path.join(dir_path, 'data.xlsx')
-        filepath = open(new_file_path, 'wb')
-        writer = pd.ExcelWriter(filepath, engine='xlsxwriter')
+        try:
+            dir_path = os.path.dirname(os.path.realpath(__file__))
+            new_file_path = os.path.join(dir_path, 'data.xlsx')
+            filepath = open(new_file_path, 'wb')
+            writer = pd.ExcelWriter(filepath, engine='xlsxwriter')
 
 
-        # creating a dataframe
-        df = pd.read_sql("SELECT * FROM inventory", con)
+            # creating a dataframe
+            df = pd.read_sql("SELECT * FROM inventory", con)
 
-        print(type(df), file=sys.stderr)
-        df.to_excel(writer, sheet_name='inventory', index=False)
-        writer.save()
+            print(type(df), file=sys.stderr)
+            df.to_excel(writer, sheet_name='inventory', index=False)
+            writer.save()
+            return send_file('data.xlsx', as_attachment=True)
+        except:
+            return redirect(url_for('mainledger', error ="Unable to download excel file"))
 
-    return send_file('data.xlsx', as_attachment=True)
+
+
 
 @app.route('/district', methods=["POST","GET"])
 def district():
