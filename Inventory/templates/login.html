@@ -38,12 +38,17 @@
                     <div class="m-4 w-50">
                         <form action="{{url_for('login')}}" method="POST">
                             {{ form.hidden_tag() }}
+                            {% if error %}
+                            <div class="alert alert-danger" role="alert">
+                                {{error}}
+                            </div>
+                            {% endif %}
                             <div class="mb-3">
-                              <label for="exampleInputEmail1" class="form-label db-text">Username</label>
+                              <label class="form-label db-text">Username</label>
                                {{form.email(class="form-control")}}
                             </div>
                             <div class="mb-3">
-                              <label for="exampleInputPassword1" class="form-label db-text">Password</label>
+                              <label class="form-label db-text">Password</label>
                               {{form.password(class="form-control")}}
                             </div>
                             <div class="m-4 p-4">
