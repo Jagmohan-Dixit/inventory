@@ -34,8 +34,9 @@
         let dist = document.getElementById(select).value;
 
         var data = {{ data|tojson }};
-        
+
         var obj;
+            console.log(obj)
         for(item in data) 
         {
             if(item === dist) obj = data[item];
@@ -80,9 +81,33 @@
 </div>
 
 <form action="{{url_for('issuedto')}}" method="POST" class="current-inner">
+                            {% if error %}
+                            <div class="alert alert-danger" role="alert">
+                                {{error}}
+                            </div>
+                            {% endif %}
     <div class="d-flex flex-column justify-content-between issued-to-main">
         <div class="d-flex flex-wrap justify-content-between inputs h-50">
 
+            {% if session['productname']%}
+            <div class="form-div p-3">
+                <div class="label-div">
+                    Product
+                </div>
+                <div class="input-div">
+                    <input type="text"  disabled class="form-control d-block" value={{session['productname']}}>
+                </div>
+            </div>
+            {% else %}
+            <div class="form-div p-3" >
+                <div class="label-div">
+                    Product
+                </div>
+                <div class="input-div">
+                    <input type="text"  disabled class="form-control d-block" value={{session['productname']}}>
+                </div>
+            </div>
+            {% endif %}
             <div class="form-div p-3" id="distbatt">
                 <div class="label-div">
                     District/Battalion/Unit
@@ -144,9 +169,10 @@
                 <div class="input-div">
                     <select name="battalion" class="form-select" aria-label="Disabled select example" id="select3"
                         onchange="myFunction('select3')">
+
                         <option value="1" selected>Select Battalion</option>
                         {% for item in battalions %}
-                        <option value={{item}}>{{item}}</option>
+                        <option value="{{item}}">{{item}}</option>
                         {% endfor %}
                     </select>
                 </div>

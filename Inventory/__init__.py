@@ -1,24 +1,16 @@
 from flask import Flask, redirect, render_template, request, json, flash, url_for, jsonify, session, send_file
 from mailmerge import MailMerge
 import sqlite3 as sql
-from Inventory.forms import LoginForm, AdditemForm, SearchForm
+from Inventory.forms import LoginForm, AdditemForm, SearchForm, RegisterForm
 import pandas as pd
-import sys,os
+import sys, os, random
 from docx2pdf import convert
+import pythoncom
 from Inventory.data import district, stationdata, battalion
 
 app = Flask(__name__)
 
 app.config['SECRET_KEY'] = "mysecretkey"
-
-# @app.route('/')
-# def home():
-#     if session.get('login'):
-#         flash("You are Logged In")
-#         return redirect(url_for('mainledger'))
-#
-#     flash("You are Not Logged In")
-#     return render_template('login.html')
 
 
 
@@ -29,6 +21,7 @@ def login():
         if form.validate_on_submit():
             email = request.form['email']
             password = request.form['password']
+            session['productname'] = ""
 
             try:
                 conn = sql.connect('database.db')
@@ -49,7 +42,6 @@ def login():
 
     return redirect(url_for('login'))
 
-
 @app.route('/logout')
 def logout():
     if session.get('login'):
@@ -60,12 +52,10 @@ def logout():
 def issueing():
     if session.get('login'):
         if request.form['type'] == 'assign':
-            print("issuing", file=sys.stderr)
             productname = request.form['product']
             quantity = request.form['quantity']
             session['productname'] = productname
             session['quantity'] = quantity
-            print(productname)
             return redirect(url_for('issuedto'))
         else:
             conn = sql.connect("database.db")
@@ -73,76 +63,71 @@ def issueing():
             productname = request.form['product']
             data = cur.execute('''SELECT * FROM issued WHERE productname=?''',(productname,)).fetchall()
 
-            print(data, file=sys.stderr)
             return render_template('showAssignDetails.html', data = data)
     
     return redirect(url_for('login'))
-#
-# @app.route('/assigned-history')
-# def showAssignedHistory():
-#     if session.get('login'):
-#         productname = request.form['product']
-#         print(productname, file=sys.stderr)
-#         return redirect(url_for('issuedto'))
-#     return redirect(url_for('login'))
 
 
 @app.route("/issuedto", methods=["POST","GET"])
 def issuedto():
     if session.get('login'):
-
         issuedfrom = request.form.get('issuedfrom')
         issuedto = request.form.get('issuedto')
         district = request.form.get('district')
+        battalion_form = request.form.get('battalion')
+        print(f"battalions: {battalion_form}",file=sys.stderr)
+        print(f"districts: {district}",file=sys.stderr)
         station = request.form.get('station')
         qty = request.form.get('quantity')
 
-        if district:
-            print(district)
+        if issuedfrom and issuedto and  qty:
+            if not session['productname']:
+                return render_template('issuedTo.html', count=1, data=stationdata, battalions=battalion,
+                                       error="Please select a product from main ledger")
+            if qty > session['quantity']:
+                return render_template('issuedTo.html',count=1,data=stationdata, battalions=battalion, error = "Quantity is greater than remaining products in inventory")
 
-        if issuedfrom and issuedto and district and qty and district and station:
+
             conn = sql.connect("database.db")
             cur = conn.cursor()
-            cur.execute("""INSERT INTO issued (issuedfrom, productname, issuedto, district, quantity, station)
-                VALUES (?,?,?,?,?,?)""", (issuedfrom, session['productname'], issuedto, district, qty, station))
- 
+            cur.execute("""INSERT INTO issued (issuedBy, issuedfrom, productname, issuedto, district, battalion, quantity, station)
+                          VALUES (?,?,?,?,?,?,?,?)""",(session['email'], issuedfrom, session['productname'], issuedto, district,battalion_form, qty, station))
+
             quantity = int(session['quantity']) - int(qty)
             cur.execute("UPDATE inventory SET quantity=? WHERE productname=?", (quantity, session['productname'],))
             conn.commit()
             conn.close()
+
+            dir_path = os.path.dirname(os.path.realpath(__file__))
+
+            pythoncom.CoInitialize()
+            new_file_path = os.path.join(dir_path, 'issued_template.docx')
+            document = MailMerge(new_file_path)
+            if battalion_form == '1':
+                battalion_form = "-"
+            elif district == '1':
+                district = "-"
+                station = "-"
+            document.merge(
+            productname= session['productname'],
+            issuedBy = session['email'],
+            issuedto = issuedto,
+            district = district,
+            battalion = battalion_form,
+            station = station,
+            qty=qty,
+            )
+            document.write(os.path.join(dir_path, 'output.docx'))
+            convert(os.path.join(dir_path, 'output.docx'), os.path.join(dir_path, 'output.pdf'))
             session.pop('productname')
             session.pop('quantity')
-            return redirect(url_for('mainledger'))
+            return send_file('output.pdf', as_attachment=True)
 
-        return render_template('issuedTo.html',count=1,data=stationdata, battalions=battalion)
+        return render_template('issuedTo.html',count=1,data=stationdata, battalions=battalion, error = "")
 
     return redirect(url_for('login'))
 
-# @app.route("/addstation",  methods=["POST","GET"])
-# def addstation():
-#     if session.get('login'):
-#         form = AddStation()
-#         conn = sql.connect('database.db')
-#         cur = conn.cursor()
-#         data = cur.execute('SELECT * FROM district').fetchall()
-#         for item in data:
-#             val = str(item[0])
-#             distname = item[1]
-#             form.district.choices += [(val, distname)]
-#         print(form.form_errors, file=sys.stderr)
-#
-#         if form.validate_on_submit():
-#             print(form.district.data, file=sys.stderr)
-#             cur.execute('''INSERT INTO policestation (psname, districtId) VALUES (?,?)''', (form.station.data, form.district.data))
-#             flash('Station added successfully')
-#             conn.commit()
-#             conn.close()
-#             return redirect(url_for('mainledger'))
-#
-#         conn.close()
-#         return render_template('showAssignDetails.html', form = form)
-#
-#     return redirect(url_for('login'))
+
 
 @app.route('/additem', methods=["POST","GET"])
 def additem():
@@ -151,48 +136,53 @@ def additem():
         form = AdditemForm()
         if form.validate_on_submit():
 
-            issuedfrom = str(request.form['issuedfrom']).lower()
+            addedBy = session['email']
             productname = str(request.form['productname']).lower()
-            date = str(request.form['date'])
             dateofsurvey = str(request.form['dateofsurvey'])
             billno = str(request.form['billno']).lower()
             nameoffirm = str(request.form['nameoffirm']).lower()
-            itemno = str(request.form['itemno'])
             quantity = str(request.form['quantity'])
             rateperitem = str(request.form['rateperitem'])
             totalamount = str(request.form['totalamount'])
-            crvno = str(request.form['crvno']).lower()
+
+            pythoncom.CoInitialize()
             dir_path = os.path.dirname(os.path.realpath(__file__))
             new_file_path = os.path.join(dir_path, 'item_template.docx')
-            template = 'item_template.docx'
             document = MailMerge(new_file_path)
             document.merge(
-                issuedfrom = issuedfrom,
                 productName = productname,
-                date = date,
                 dosurvey = dateofsurvey,
                 billno = billno,
                 nameoffirm = nameoffirm,
-                itemno = itemno,
                 quantity = quantity,
                 rateperitem = rateperitem,
-                totalamount = totalamount,
-                crvno = crvno
+                totalamount = totalamount
             )
+
             document.write(os.path.join(dir_path, 'output.docx'))
-            convert(os.path.join(dir_path, 'output.docx'),os.path.join(dir_path, 'output.pdf'))
+            convert(os.path.join(dir_path,  'output.docx'), os.path.join(dir_path, 'output.pdf'))
+
             with sql.connect("database.db") as con:
                 cur = con.cursor()
-                cur.execute("""INSERT INTO inventory (issuedfrom, productname,date, dateofsurvey, billno, 
-                nameoffirm,itemno, quantity, rateperitem, totalamount, crvno) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-                """, (issuedfrom, productname,date, dateofsurvey, billno, nameoffirm,itemno, quantity, rateperitem, totalamount, crvno))
+                id = random.randint(100000, 1000000000)
+
+                unique = False
+
+                while not unique:
+                    if cur.execute('''SELECT * FROM inventory WHERE uniqueId=?''', (id,)).fetchall():
+                        id = random.randint(100000, 1000000000)
+                    else:
+                        unique = True
+
+                cur.execute("""INSERT INTO inventory (uniqueId, addedBy,  productname, dateofsurvey, billno, 
+                nameoffirm,  quantity, rateperitem, totalamount) VALUES ( ?, ?, ?,  ?, ?, ?, ?, ?, ?)
+                """, (id, addedBy,  productname, dateofsurvey, billno, nameoffirm, quantity, rateperitem, totalamount))
                 session['productname'] = productname
                 flash("Data Added Successfully")
-                print("Data Added Successfully") 
             
             con.commit()
             con.close()
-            return send_file('output.pdf', as_attachment=True)
+            return send_file(f'output.pdf', as_attachment=True)
 
         return render_template("add-item.html", form=form)
     return redirect(url_for('login'))
@@ -237,7 +227,6 @@ def download():
             filepath = open(new_file_path, 'wb')
             writer = pd.ExcelWriter(filepath, engine='xlsxwriter')
 
-
             # creating a dataframe
             df = pd.read_sql("SELECT * FROM inventory", con)
 
@@ -248,7 +237,20 @@ def download():
         except:
             return redirect(url_for('mainledger', error ="Unable to download excel file"))
 
+@app.route('/register', methods = ['POST','GET'])
+def register():
+    form = RegisterForm()
+    if form.validate_on_submit():
+        #insert query in users
+        con = sql.connect("database.db")
+        cur = con.cursor()
 
+        cur.execute('INSERT INTO logindata (email,password) VALUES (?,?)', (form.email.data, form.password.data))
+        con.commit()
+        con.close()
+        return redirect(url_for('login'))
+
+    return render_template('register.html', form=form)
 
 
 @app.route('/district', methods=["POST","GET"])
