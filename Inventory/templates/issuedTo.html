@@ -46,7 +46,7 @@
         for(key in obj) {
             console.log(key);
             document.getElementById('select4').innerHTML += `
-                <option value=${obj[key]}>${obj[key]}</option>
+                <option value="${obj[key]}">${obj[key]}</option>
         `; }
         
 
@@ -71,7 +71,6 @@
             }
         });
     }
-
 </script>
 
 <div class="d-flex flex-start  mb-0 content-outer">
@@ -79,15 +78,8 @@
         <h6 class="mt-2">Issued To</h6>
     </div>
 </div>
-
 <form action="{{url_for('issuedto')}}" method="POST" class="current-inner">
-    {% if successMessage %}
-                            <div class="alert alert-success" role="alert">
-                                {{successMessage}}
-                                <a href="{{url_for('database_download',filename='output.docx')}}">Download File</a>
-                            </div>
-                            {% endif %}
-                            {% if error %}
+                                {% if error %}
                             <div class="alert alert-danger" role="alert">
                                 {{error}}
                             </div>
@@ -95,7 +87,6 @@
     <div class="d-flex flex-column justify-content-between issued-to-main">
         <div class="d-flex flex-wrap justify-content-between inputs h-50">
 
-            {% if session['productname']%}
             <div class="form-div p-3">
                 <div class="label-div">
                     Product
@@ -104,16 +95,6 @@
                     <input type="text"  disabled class="form-control d-block" value={{session['productname']}}>
                 </div>
             </div>
-            {% else %}
-            <div class="form-div p-3" >
-                <div class="label-div">
-                    Product
-                </div>
-                <div class="input-div">
-                    <input type="text"  disabled class="form-control d-block" value={{session['productname']}}>
-                </div>
-            </div>
-            {% endif %}
             <div class="form-div p-3" id="distbatt">
                 <div class="label-div">
                     District/Battalion/Unit

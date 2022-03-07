@@ -2,8 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="facba3c8-1f29-418f-a268-73fdb64b9a4c" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/logo.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Inventory/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/Inventory/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Inventory/templates/add-item.html" beforeDir="false" afterPath="$PROJECT_DIR$/Inventory/templates/add-item.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Inventory/templates/download-ledger.html" beforeDir="false" afterPath="$PROJECT_DIR$/Inventory/templates/download-ledger.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Inventory/templates/issuedTo.html" beforeDir="false" afterPath="$PROJECT_DIR$/Inventory/templates/issuedTo.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Inventory/templates/main-ledger.html" beforeDir="false" afterPath="$PROJECT_DIR$/Inventory/templates/main-ledger.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database.db" beforeDir="false" afterPath="$PROJECT_DIR$/database.db" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -30,11 +37,15 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/Inventory/__init__.py" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/static" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\Silicon Garage\inventory\static" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\Silicon Garage\inventory" />
       <recent name="D:\Silicon Garage\inventory\Inventory" />
     </key>
   </component>
