@@ -1,17 +1,12 @@
 from flask import Flask, redirect, render_template, request, json, flash, url_for, jsonify, session, send_file
-from mailmerge import MailMerge
 import sqlite3 as sql
 from Inventory.forms import LoginForm, AdditemForm, SearchForm, RegisterForm
-import pandas as pd
-import sys, os, random
-from docx2pdf import convert
-import pythoncom
+import os, random
 from Inventory.data import district, stationdata, battalion
 
 app = Flask(__name__)
 
 app.config['SECRET_KEY'] = "mysecretkey"
-
 
 
 @app.route("/", methods=["POST","GET"])
@@ -52,10 +47,11 @@ def logout():
 def issueing():
     if session.get('login'):
         if request.form['type'] == 'assign':
-            productname = request.form['product']
+            productId = request.form['product']
             quantity = request.form['quantity']
-            session['productname'] = productname
+            session['productId'] = productId
             session['quantity'] = quantity
+            session['productname'] = request.form['productname']
             return redirect(url_for('issuedto'))
         else:
             conn = sql.connect("database.db")
@@ -72,58 +68,47 @@ def issueing():
 def issuedto():
     if session.get('login'):
         issuedfrom = request.form.get('issuedfrom')
-        issuedto = request.form.get('issuedto')
         district = request.form.get('district')
         battalion_form = request.form.get('battalion')
-        print(f"battalions: {battalion_form}",file=sys.stderr)
-        print(f"districts: {district}",file=sys.stderr)
         station = request.form.get('station')
         qty = request.form.get('quantity')
 
-        if issuedfrom and issuedto and  qty:
-            if not session['productname']:
+        if issuedfrom and qty:
+            if not session['productId']:
                 return render_template('issuedTo.html', count=1, data=stationdata, battalions=battalion,
-                                       error="Please select a product from main ledger")
-            if qty > session['quantity']:
-                return render_template('issuedTo.html',count=1,data=stationdata, battalions=battalion, error = "Quantity is greater than remaining products in inventory")
+                                       error="Please select a product from main ledger", successMessage="")
+            if int(qty) > int(session['quantity']):
+                return render_template('issuedTo.html',count=1,data=stationdata,successMessage="", battalions=battalion, error = "Quantity is greater than remaining products in inventory")
 
 
             conn = sql.connect("database.db")
             cur = conn.cursor()
-            cur.execute("""INSERT INTO issued (issuedBy, issuedfrom, productname, issuedto, district, battalion, quantity, station)
-                          VALUES (?,?,?,?,?,?,?,?)""",(session['email'], issuedfrom, session['productname'], issuedto, district,battalion_form, qty, station))
+            cur.execute("""INSERT INTO issued (issuedBy, issuedfrom, productname,  district, battalion, quantity, station)
+                          VALUES (?,?,?,?,?,?,?)""",(session['email'], issuedfrom, session['productname'],  district,battalion_form, qty, station))
 
             quantity = int(session['quantity']) - int(qty)
-            cur.execute("UPDATE inventory SET quantity=? WHERE productname=?", (quantity, session['productname'],))
+            cur.execute("UPDATE inventory SET quantity=? WHERE uniqueId=?", (quantity, session['productId'],))
             conn.commit()
             conn.close()
 
-            dir_path = os.path.dirname(os.path.realpath(__file__))
-
-            pythoncom.CoInitialize()
-            new_file_path = os.path.join(dir_path, 'issued_template.docx')
-            document = MailMerge(new_file_path)
             if battalion_form == '1':
                 battalion_form = "-"
             elif district == '1':
                 district = "-"
                 station = "-"
-            document.merge(
-            productname= session['productname'],
-            issuedBy = session['email'],
-            issuedto = issuedto,
-            district = district,
-            battalion = battalion_form,
-            station = station,
-            qty=qty,
-            )
-            document.write(os.path.join(dir_path, 'output.docx'))
-            convert(os.path.join(dir_path, 'output.docx'), os.path.join(dir_path, 'output.pdf'))
-            session.pop('productname')
+            data = {
+            'productname' : session['productname'],
+            'issuedBy' : session['email'],
+            'district' : district,
+            'battalion' : battalion_form,
+            'station' : station,
+            'qty' : qty,
+            }
+            session.pop('productId')
             session.pop('quantity')
-            return send_file('output.pdf', as_attachment=True)
+            return render_template('download-issued.html', **data)
 
-        return render_template('issuedTo.html',count=1,data=stationdata, battalions=battalion, error = "")
+        return render_template('issuedTo.html',count=1,data=stationdata, battalions=battalion, error = "", successMessage="")
 
     return redirect(url_for('login'))
 
@@ -145,22 +130,16 @@ def additem():
             rateperitem = str(request.form['rateperitem'])
             totalamount = str(request.form['totalamount'])
 
-            pythoncom.CoInitialize()
-            dir_path = os.path.dirname(os.path.realpath(__file__))
-            new_file_path = os.path.join(dir_path, 'item_template.docx')
-            document = MailMerge(new_file_path)
-            document.merge(
-                productName = productname,
-                dosurvey = dateofsurvey,
-                billno = billno,
-                nameoffirm = nameoffirm,
-                quantity = quantity,
-                rateperitem = rateperitem,
-                totalamount = totalamount
-            )
 
-            document.write(os.path.join(dir_path, 'output.docx'))
-            convert(os.path.join(dir_path,  'output.docx'), os.path.join(dir_path, 'output.pdf'))
+            data = {
+                'productname' : productname,
+                'dosurvey' : dateofsurvey,
+                'billno' : billno,
+                'nameoffirm' : nameoffirm,
+                'quantity' : quantity,
+                'rateperitem' : rateperitem,
+                'totalamount' : totalamount
+            }
 
             with sql.connect("database.db") as con:
                 cur = con.cursor()
@@ -174,17 +153,15 @@ def additem():
                     else:
                         unique = True
 
-                cur.execute("""INSERT INTO inventory (uniqueId, addedBy,  productname, dateofsurvey, billno, 
+                cur.execute("""INSERT INTO inventory (uniqueId, addedBy,  productname, dateofsurvey, billno,
                 nameoffirm,  quantity, rateperitem, totalamount) VALUES ( ?, ?, ?,  ?, ?, ?, ?, ?, ?)
                 """, (id, addedBy,  productname, dateofsurvey, billno, nameoffirm, quantity, rateperitem, totalamount))
                 session['productname'] = productname
-                flash("Data Added Successfully")
-            
             con.commit()
             con.close()
-            return send_file(f'output.pdf', as_attachment=True)
+            return render_template('download-item.html', **data)
 
-        return render_template("add-item.html", form=form)
+        return render_template("add-item.html", form=form, successMessage = "")
     return redirect(url_for('login'))
 
 
@@ -200,7 +177,6 @@ def mainledger():
         if form.validate_on_submit():
 
             name = str(request.form['search']).lower()
-            print(name)
             if name:
                 try:
                     data = cur.execute("SELECT * FROM inventory WHERE productname=?",(name,))
@@ -210,7 +186,7 @@ def mainledger():
                     return render_template("main-ledger.html", form=form, data=data,
                                            error="Unable to fetch data from database")
         con.commit()
-        con.close() 
+        con.close()
         return render_template("main-ledger.html", form=form, data=data, error = "")
 
     return redirect(url_for('login'))    
@@ -219,29 +195,17 @@ def mainledger():
 
 @app.route('/download', methods=["POST","GET"])
 def download():
-    con = sql.connect("database.db")
     if request.form['type'] == "excel":
-        try:
-            dir_path = os.path.dirname(os.path.realpath(__file__))
-            new_file_path = os.path.join(dir_path, 'data.xlsx')
-            filepath = open(new_file_path, 'wb')
-            writer = pd.ExcelWriter(filepath, engine='xlsxwriter')
-
-            # creating a dataframe
-            df = pd.read_sql("SELECT * FROM inventory", con)
-
-            print(type(df), file=sys.stderr)
-            df.to_excel(writer, sheet_name='inventory', index=False)
-            writer.save()
-            return send_file('data.xlsx', as_attachment=True)
-        except:
-            return redirect(url_for('mainledger', error ="Unable to download excel file"))
+        con = sql.connect("database.db")
+        cur = con.cursor()
+        data = cur.execute("SELECT * FROM inventory")
+        data = list(data)
+        return render_template('download-ledger.html', data = data)
 
 @app.route('/register', methods = ['POST','GET'])
 def register():
     form = RegisterForm()
     if form.validate_on_submit():
-        #insert query in users
         con = sql.connect("database.db")
         cur = con.cursor()
 
@@ -251,6 +215,11 @@ def register():
         return redirect(url_for('login'))
 
     return render_template('register.html', form=form)
+
+
+@app.route('/database_download/<filename>')
+def database_download(filename):
+    return send_file(filename, as_attachment=True)
 
 
 @app.route('/district', methods=["POST","GET"])

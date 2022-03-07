@@ -16,8 +16,6 @@
               src="{{url_for('static', filename='img/icons/search-icon.svg')}}" /></span>
               {{form.hidden_tag()}}
               {{form.search(class="form-control")}}
-          <!-- <input style="border:none" type="text" class="form-control" placeholder="Search inventory…"
-            aria-label="Username" aria-describedby="basic-addon1"> -->
 
         </div>
       </div>
@@ -44,14 +42,15 @@
         {% for item in data%}
 
           <tr>
-            <th scope="row">{{item[6]}}</th>
-            <td>{{item[2].upper()}}</td>
-            <td>{{item[8]}}</td>
+            <th scope="row">{{item[2]}}</th>
+            <td>{{item[3]}}</td>
+            <td>{{item[6]}}</td>
 
             <td class="text-center">
               <form action="{{url_for('issueing')}}" method="POST">
-                  <input type="hidden" name="quantity" value={{item[8]}}>
-                  <input type="hidden" name="product" value={{item[2]}}>
+                  <input type="hidden" name="quantity" value={{item[6]}}>
+                  <input type="hidden" name="product" value={{item[0]}}>
+                  <input type="hidden" name="productname" value={{item[2]}}>
                   <input type="hidden" name="type" value='assign'>
                   <button type="submit" class="p-1 w-75">Assign</button>
               </form>

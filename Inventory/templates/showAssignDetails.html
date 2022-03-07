@@ -17,7 +17,6 @@
             <th scope="col">Issued From</th>
             <th scope="col">Product Name</th>
             <th scope="col">Quantity</th>
-            <th scope="col">Issued To</th>
             <th scope="col">District</th>
             <th scope="col">Battalion</th>
             <th scope="col">Station</th>
@@ -26,13 +25,32 @@
         {% for item in data%}
         <tbody>
           <tr>
-            <td scope="row">{{item[0].upper()}}</td>
-            <td>{{item[1].upper()}}</td>
-            <td>{{item[-1]}}</td>
-            <td>{{item[2].upper()}}</td>
-            <td>{{item[3]}}</td>
-            <td>{{item[4]}}</td>
-            <td>{{item[5]}}</td>
+            <td scope="row">{{item[1]}}</td>
+            <td>{{item[2]}}</td>
+            <td>{{item[6]}}</td>
+            <td>
+              {% if item[3] == 1%}
+                -
+              {% else %}
+                {{item[3]}}
+               {% endif %}
+            </td>
+            <td>
+              {% if item[4] == 1 %}
+                -
+              {% else %}
+                {{item[4]}}
+              {% endif %}
+            </td>
+            <td>
+              {% if item[5] == 1 or item[5] == None%}
+                -
+              {% else %}
+                {{item[5]}}
+               {% endif %}
+            </td>
+
+
           </tr>
         </tbody>
         {% endfor %}

@@ -28,7 +28,6 @@ conn.execute('''CREATE TABLE issued(
     issuedBy STRING,
     issuedfrom STRING, 
     productname STRING, 
-    issuedto STRING, 
     district STRING, 
     battalion STRING, 
     station STRING, 
