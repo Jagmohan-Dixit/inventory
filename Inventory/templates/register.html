@@ -15,8 +15,8 @@
 </head>
 <body>
     <div class="container-fluid m-0 p-0 " style="height: 100vh">
-        <div class="row h-100 m-0" style=" width: 100%">
-            <div class="col login-left text-white" >
+        <div class=" d-flex h-100 m-0" style=" width: 100%">
+            <div class="login-left text-white" >
                 <div class="d-flex flex-column  align-items-center   login-left-inner">
                     <div class="logo-login text-center" style="height: 95%">
                         <img src="{{url_for('static', filename='img/logo-homepage.svg')}}">
@@ -57,6 +57,10 @@
                                 {{form.submit(class="button p-2")}}
                             </div>
                           </form>
+                        <div class="mb-3 mt-3">
+                                <hr/>
+                              <a href={{url_for('login')}}>Sign In to an existing account</a>
+                            </div>
                     </div>
                 </div>
             </div>
