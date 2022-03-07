@@ -7,6 +7,13 @@
 </div>
 
 <div class="current-inner mt-0 mb-3">
+    {% if successMessage %}
+                            <div class="alert alert-success" role="alert">
+                                {{successMessage}}
+                                <a href="{{url_for('database_download',filename='item.docx')}}">Download File</a>
+                            </div>
+                            {% endif %}
+
     <form action="{{url_for('additem')}}" method="POST">
         {{form.hidden_tag()}}
     <div class="d-flex flex-column justify-content-between issued-to-main add-item-main">

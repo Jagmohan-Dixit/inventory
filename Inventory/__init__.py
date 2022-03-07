@@ -13,7 +13,6 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = "mysecretkey"
 
 
-
 @app.route("/", methods=["POST","GET"])
 def login():
     if session.get('login') == None:
@@ -72,7 +71,6 @@ def issueing():
 def issuedto():
     if session.get('login'):
         issuedfrom = request.form.get('issuedfrom')
-        issuedto = request.form.get('issuedto')
         district = request.form.get('district')
         battalion_form = request.form.get('battalion')
         print(f"battalions: {battalion_form}",file=sys.stderr)
@@ -80,18 +78,18 @@ def issuedto():
         station = request.form.get('station')
         qty = request.form.get('quantity')
 
-        if issuedfrom and issuedto and  qty:
+        if issuedfrom and qty:
             if not session['productname']:
                 return render_template('issuedTo.html', count=1, data=stationdata, battalions=battalion,
-                                       error="Please select a product from main ledger")
+                                       error="Please select a product from main ledger", successMessage="")
             if qty > session['quantity']:
-                return render_template('issuedTo.html',count=1,data=stationdata, battalions=battalion, error = "Quantity is greater than remaining products in inventory")
+                return render_template('issuedTo.html',count=1,data=stationdata,successMessage="", battalions=battalion, error = "Quantity is greater than remaining products in inventory")
 
 
             conn = sql.connect("database.db")
             cur = conn.cursor()
-            cur.execute("""INSERT INTO issued (issuedBy, issuedfrom, productname, issuedto, district, battalion, quantity, station)
-                          VALUES (?,?,?,?,?,?,?,?)""",(session['email'], issuedfrom, session['productname'], issuedto, district,battalion_form, qty, station))
+            cur.execute("""INSERT INTO issued (issuedBy, issuedfrom, productname,  district, battalion, quantity, station)
+                          VALUES (?,?,?,?,?,?,?)""",(session['email'], issuedfrom, session['productname'],  district,battalion_form, qty, station))
 
             quantity = int(session['quantity']) - int(qty)
             cur.execute("UPDATE inventory SET quantity=? WHERE productname=?", (quantity, session['productname'],))
@@ -111,19 +109,19 @@ def issuedto():
             document.merge(
             productname= session['productname'],
             issuedBy = session['email'],
-            issuedto = issuedto,
             district = district,
             battalion = battalion_form,
             station = station,
             qty=qty,
             )
             document.write(os.path.join(dir_path, 'output.docx'))
-            convert(os.path.join(dir_path, 'output.docx'), os.path.join(dir_path, 'output.pdf'))
+            #convert(os.path.join(dir_path, 'output.docx'), os.path.join(dir_path, 'output.pdf'))
             session.pop('productname')
             session.pop('quantity')
-            return send_file('output.pdf', as_attachment=True)
+            return render_template('issuedTo.html', count=1, data=stationdata, battalions=battalion, error="",
+                                   successMessage="Product Issued successfully!")
 
-        return render_template('issuedTo.html',count=1,data=stationdata, battalions=battalion, error = "")
+        return render_template('issuedTo.html',count=1,data=stationdata, battalions=battalion, error = "", successMessage="")
 
     return redirect(url_for('login'))
 
@@ -159,8 +157,8 @@ def additem():
                 totalamount = totalamount
             )
 
-            document.write(os.path.join(dir_path, 'output.docx'))
-            convert(os.path.join(dir_path,  'output.docx'), os.path.join(dir_path, 'output.pdf'))
+            document.write(os.path.join(dir_path, 'item.docx'))
+            #convert(os.path.join(dir_path,  'output.docx'), os.path.join(dir_path, 'output.pdf'))
 
             with sql.connect("database.db") as con:
                 cur = con.cursor()
@@ -178,13 +176,19 @@ def additem():
                 nameoffirm,  quantity, rateperitem, totalamount) VALUES ( ?, ?, ?,  ?, ?, ?, ?, ?, ?)
                 """, (id, addedBy,  productname, dateofsurvey, billno, nameoffirm, quantity, rateperitem, totalamount))
                 session['productname'] = productname
-                flash("Data Added Successfully")
-            
             con.commit()
             con.close()
-            return send_file(f'output.pdf', as_attachment=True)
+            form= AdditemForm(formdata=None)
+            # form.productname.data = ""
+            # form.dateofsurvey.raw_data = ["yyyy-mm-dd"]
+            # form.billno.data  =""
+            # form.nameoffirm.data  = ""
+            # form.quantity.raw_data  = 0
+            # form.rateperitem.data  = ""
+            # form.totalamount.data  = ""
+            return render_template("add-item.html", form=form, successMessage="Item Added Successfully!")
 
-        return render_template("add-item.html", form=form)
+        return render_template("add-item.html", form=form, successMessage = "")
     return redirect(url_for('login'))
 
 
@@ -210,7 +214,8 @@ def mainledger():
                     return render_template("main-ledger.html", form=form, data=data,
                                            error="Unable to fetch data from database")
         con.commit()
-        con.close() 
+        con.close()
+        print(f'data: {data}', file=sys.stderr)
         return render_template("main-ledger.html", form=form, data=data, error = "")
 
     return redirect(url_for('login'))    
@@ -241,7 +246,6 @@ def download():
 def register():
     form = RegisterForm()
     if form.validate_on_submit():
-        #insert query in users
         con = sql.connect("database.db")
         cur = con.cursor()
 
@@ -251,6 +255,11 @@ def register():
         return redirect(url_for('login'))
 
     return render_template('register.html', form=form)
+
+
+@app.route('/database_download/<filename>')
+def database_download(filename):
+    return send_file(filename, as_attachment=True)
 
 
 @app.route('/district', methods=["POST","GET"])

@@ -10,8 +10,10 @@ from threading import Timer
 def ui(location):
     qt_app = QApplication(sys.argv)
     web = QWebEngineView()
+    screen = qt_app.primaryScreen()
+    size = screen.size()
     web.setWindowTitle("Inventory")
-    web.resize(1000, 1000)
+    web.resize(size.width(), size.height())
     web.setZoomFactor(1.5)
     web.load(QUrl(location))
     web.show()
@@ -19,5 +21,5 @@ def ui(location):
 
 
 if __name__ == '__main__':
-    # Timer(1, lambda: ui("http://127.0.0.1:5000/")).start()
+    Timer(1, lambda: ui("http://127.0.0.1:5000/")).start()
     app.run(debug=False)

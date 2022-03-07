@@ -81,6 +81,12 @@
 </div>
 
 <form action="{{url_for('issuedto')}}" method="POST" class="current-inner">
+    {% if successMessage %}
+                            <div class="alert alert-success" role="alert">
+                                {{successMessage}}
+                                <a href="{{url_for('database_download',filename='output.docx')}}">Download File</a>
+                            </div>
+                            {% endif %}
                             {% if error %}
                             <div class="alert alert-danger" role="alert">
                                 {{error}}
@@ -131,14 +137,6 @@
                 </div>
             </div>
 
-            <div class="form-div p-3">
-                <div class="label-div">
-                    Branch to Issue
-                </div>
-                <div class="input-div">
-                    <input type="text" class="form-control d-block" name="issuedto" required>
-                </div>
-            </div>
             <div class="form-div p-3">
                 <div class="label-div">
                     Quantity
