@@ -1,7 +1,5 @@
 from flask_wtf import FlaskForm
-import os
-from flask import json
-from wtforms.validators import  DataRequired
+from wtforms.validators import  DataRequired, EqualTo
 from wtforms import StringField, SubmitField, PasswordField,  SelectField, EmailField, DateField, IntegerField
 
 
@@ -14,28 +12,28 @@ class LoginForm(FlaskForm):
     password = PasswordField("Password", validators=[dr], render_kw={"placeholder":"Password"})
     submit = SubmitField("Login")
 
+class RegisterForm(FlaskForm):
+
+    email = EmailField("Email", validators=[dr], render_kw={"placeholder": "Email"})
+    password = PasswordField("Password", validators=[dr, EqualTo('cfPassword', message='Password Must Match')], render_kw={"placeholder": "Password"})
+    cfPassword = PasswordField("Confirm Password", validators=[dr], render_kw={"placeholder": "Confirm Password"})
+    submit = SubmitField("Register")
+
 
 class AdditemForm(FlaskForm):
 
-    issuedfrom = StringField("from", validators=[dr])
     productname = StringField("productname", validators=[dr])
-    date = DateField("date", validators=[dr])
     dateofsurvey = DateField("dateofsurvey", validators=[dr])
     billno = StringField("billno", validators=[dr])
     nameoffirm = StringField("nameoffirm", validators=[dr])
-    itemno = StringField("itemno", validators=[dr])
     quantity = IntegerField("quantity", validators=[dr])
     rateperitem = StringField("rateperitem", validators=[dr])
     totalamount = StringField("totalamount", validators=[dr])
-    crvno = StringField("crvno", validators=[dr])
     submit = SubmitField("Add")
 
 
 class SearchForm(FlaskForm):
     search = StringField("search",  render_kw={"placeholder":"Search inventory..."})
-
-
-
 
 
 

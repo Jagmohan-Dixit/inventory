@@ -15,13 +15,12 @@
 
     <link type="text/css" href="{{url_for('static', filename='css/style.css')}}" rel="stylesheet" />
 
-
 </head>
 
 <body>
     <div class='d-flex justify-content-between horizontal-nav '>
-        <div class="logo" style="background: #2F80ED;">
-            <a href="{{url_for('mainledger')}}"><img src="{{url_for('static', filename='img/logo.svg')}}" width="100%" height="100%" /></a>
+        <div class="logo">
+            <a href="{{url_for('mainledger')}}"><img src="{{url_for('static', filename='img/logo.png')}}" width="100%" height="100%" /></a>
         </div>
         <div class="text-center header m-0">
             <h2 class="pb-0">Inventory Management</h2>
@@ -46,6 +45,7 @@
     </div>
     <div class="d-flex main-section">
         <div class="d-flex flex-column justify-content-center align-items-center veritcal-nav">
+        <div class="d-flex flex-column justify-content-center align-items-center veritcal-nav">
             <div class="mb-3 v-nav-button">
                 <a href="{{url_for('additem')}}" data-toggle="tooltip" data-placement="right" title="Add Items"><img
                         src="{{url_for('static', filename='img/icons/add-icon.svg')}}" /></a>
@@ -64,6 +64,10 @@
                     <img src="{{url_for('static', filename='img/icons/logout.svg')}}" /></a>
             </div>
             {% endif %}
+            </div>
+            <div class="  v-nav-button"  >
+                <img src="{{url_for('static', filename='img/logo.svg')}}"  width="100%" height="100%"  style="filter: brightness(0) saturate(100%) invert(40%) sepia(60%) saturate(2223%) hue-rotate(199deg) brightness(96%) contrast(93%);" />
+            </div>
         </div>
         <div class="d-flex flex-column justify-content-center align-items-center current-section">
             {% block content %}

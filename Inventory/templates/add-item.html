@@ -11,15 +11,7 @@
         {{form.hidden_tag()}}
     <div class="d-flex flex-column justify-content-between issued-to-main add-item-main">
         <div class="d-flex justify-content-start flex-wrap inputs">
-            <div class="m-4 form-div">
-                <div class="label-div">
-                    From
-                </div>
-                <div class="input-div">
-                    {{form.issuedfrom(class="form-control p-2")}}
-                    <!-- <input type="text" name="from" class="form-control p-2" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg"> -->
-                </div>
-            </div>
+
             <div class="m-4 form-div">
                 <div class="label-div">
                    Product Name
@@ -29,15 +21,7 @@
                     <!-- <input type="text" name="productname" class="form-control  p-2" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg"> -->
                 </div>
             </div>
-            <div class="m-4 form-div">
-                <div class="label-div">
-                    Date
-                </div>
-                <div class="input-div">
-                    {{form.date(class="form-control p-2" )}}
-                    <!-- <input type="text" name="date" class="form-control p-2" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg"> -->
-                </div>
-            </div>
+
             <div class="m-4 form-div">
                 <div class="label-div">
                     Date of Survey
@@ -49,7 +33,7 @@
             </div>
             <div class="m-4 form-div">
                 <div class="label-div">
-                    Bill No. with Date
+                    Bill No.
                 </div>
                 <div class="input-div">
                     {{form.billno(class="form-control p-2" )}}
@@ -65,15 +49,7 @@
                     <!-- <input type="text" name="nameoffirm" class="form-control  p-2" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg"> -->
                 </div>
             </div>
-            <div class="m-4 form-div">
-                <div class="label-div">
-                    Item No.
-                </div>
-                <div class="input-div">
-                    {{form.itemno(class="form-control p-2" )}}
-                    <!-- <input type="text" name="itemno" class="form-control p-2" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg"> -->
-                </div>
-            </div>
+
             <div class="m-4 form-div">
                 <div class="label-div">
                     Quantity
@@ -85,7 +61,7 @@
             </div>
             <div class="m-4 form-div">
                 <div class="label-div">
-                    Rate per Item <br/>(Without GST)
+                    Rate per Item <br/>
                 </div>
                 <div class="input-div">
                     {{form.rateperitem(class="form-control p-2" )}}
@@ -94,24 +70,15 @@
             </div>
             <div class="m-4 form-div">
                 <div class="label-div">
-                    Amount Total (With GST)
+                    Amount Total
                 </div>
                 <div class="input-div">
                     {{form.totalamount(class="form-control p-2" )}}
                     <!-- <input type="text" name="totalamount" class="form-control d-block p-2" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg"> -->
                 </div>
             </div>
-            <div class="m-4 form-div">
-                <div class="label-div">
-                    CRV No.
-                </div>
-                <div class="input-div">
-                    {{form.crvno(class="form-control p-2" )}}
-                    </div>
-            </div>
-        </form>
+
         </div>
-        
         <div class="m-4 p-4">
             {{form.submit(class="button p-2")}}
         </div>
