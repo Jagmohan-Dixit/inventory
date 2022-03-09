@@ -208,6 +208,32 @@ def register():
     if form.validate_on_submit():
         con = sql.connect("database.db")
         cur = con.cursor()
+        cur.execute('''CREATE TABLE IF NOT EXISTS inventory(
+            uniqueId INTEGER,
+            addedBy STRING, 
+            productname STRING, 
+            dateofsurvey STRING, 
+            billno STRING, 
+            nameoffirm STRING, 
+            quantity STRING, 
+            rateperitem STRING, 
+            totalamount STRING)'''
+                     )
+
+        cur.execute('''CREATE TABLE IF NOT EXISTS issued(
+            issuedBy STRING,
+            issuedfrom STRING, 
+            productname STRING, 
+            district STRING, 
+            battalion STRING, 
+            station STRING, 
+            quantity STRING)'''
+                     )
+
+        cur.execute('''CREATE TABLE IF NOT EXISTS logindata(
+            email STRING, 
+            password STRING)'''
+                     )
 
         cur.execute('INSERT INTO logindata (email,password) VALUES (?,?)', (form.email.data, form.password.data))
         con.commit()

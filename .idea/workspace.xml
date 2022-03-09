@@ -2,15 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="facba3c8-1f29-418f-a268-73fdb64b9a4c" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/logo.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Inventory/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/Inventory/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Inventory/templates/add-item.html" beforeDir="false" afterPath="$PROJECT_DIR$/Inventory/templates/add-item.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Inventory/templates/download-ledger.html" beforeDir="false" afterPath="$PROJECT_DIR$/Inventory/templates/download-ledger.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Inventory/templates/issuedTo.html" beforeDir="false" afterPath="$PROJECT_DIR$/Inventory/templates/issuedTo.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Inventory/templates/main-ledger.html" beforeDir="false" afterPath="$PROJECT_DIR$/Inventory/templates/main-ledger.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/database.db" beforeDir="false" afterPath="$PROJECT_DIR$/database.db" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/db.py" beforeDir="false" afterPath="$PROJECT_DIR$/db.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
