@@ -12,7 +12,7 @@ conn.execute('DROP TABLE IF EXISTS battalions')
 conn.execute('DROP TABLE IF EXISTS district')
 
 
-conn.execute('''CREATE TABLE inventory(
+conn.execute('''CREATE TABLE IF NOT EXISTS inventory(
     uniqueId INTEGER,
     addedBy STRING, 
     productname STRING, 
@@ -24,7 +24,7 @@ conn.execute('''CREATE TABLE inventory(
     totalamount STRING)'''
 )
 
-conn.execute('''CREATE TABLE issued(
+conn.execute('''CREATE TABLE IF NOT EXISTS issued(
     issuedBy STRING,
     issuedfrom STRING, 
     productname STRING, 
@@ -34,7 +34,7 @@ conn.execute('''CREATE TABLE issued(
     quantity STRING)'''
 )
 
-conn.execute('''CREATE TABLE logindata(
+conn.execute('''CREATE TABLE IF NOT EXISTS logindata(
     email STRING, 
     password STRING)'''
 )
