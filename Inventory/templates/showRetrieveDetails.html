@@ -2,7 +2,7 @@
 {% block content %}
 <div class="d-flex flex-start  mb-0 content-outer">
   <div class="current-tab-name text-center">
-    <h6 class="mt-2">Assigned History</h6>
+    <h6 class="mt-2">Retrieved History</h6>
   </div>
 </div>
 <div class="current-inner mt-0 mb-3">
@@ -13,7 +13,7 @@
       <table class="table table-striped table-hover">
         <thead>
           <tr>
-            <th scope="col">Issued From</th>
+            <th scope="col">Retrieved To</th>
             <th scope="col">Product Name</th>
             <th scope="col">Quantity</th>
             <th scope="col">District</th>
@@ -43,14 +43,14 @@
               {% endif %}
             </td>
             <td>
-              {% if item[6] == 1 or item[6] == None%}
+              {% if item[6] == 1 or item[6] == None or item[6] == 'none' %}
                 -
               {% else %}
                 {{item[6]}}
                {% endif %}
             </td>
             <td>
-              {% if item[7] == 1 or item[6] == None%}
+              {% if item[7] == 1 or item[7] == None or item[7] == 'none'%}
                 -
                 {% else %}
                 {{item[7]}}

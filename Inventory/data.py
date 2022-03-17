@@ -3,46 +3,45 @@ district = ["---- Select District ----", "Shimla", "Solan", "Police.Distt.Baddi"
             "Bilaspur", "Mandi", "Lahaul&Spiti", "Kullu", "Hamirpur", "Chamba",
             "Kangra", "Una", "Traffic, Tourist and Railway", "StateCID"]
 
-stationdata = {"Shimla": ["Select Sub Station","Sadar Shimla", "East Shimla", "New Shimla", "West Shimla",
-                          "Dhalli", "Sunni", "Chopal", "Kupvi", "Kotkhai", "Theog", "Deha", "Jhakri (PSOD)",
-                          "Kumarsain", "Rampur", "Jubbal", "Rohru", "Nerwa", "Chirgaon", "Women P.S. Shimla", "Nankhari"],
+stationdata = {"Shimla": {"Sadar Shimla":["Lakkar Baazar"], "East Shimla":["Kasumpti"], "New Shimla":[], "West Shimla":["Select","Jautogh","Summer Hill","Shoghi"],
+                          "Dhalli":["Select","Junga","Sanjauli","Kufri"], "Sunni":["Tharu"], "Chopal":[], "Kupvi":[], "Kotkhai":[], "Theog":["Fagu"], "Deha":[], "Jhakri (PSOD)":["Select","Jeori","Sarahan"],
+                          "Kumarsain":["Select","Narkanda","Sainj"], "Rampur":["Select","Rampur","Taklech"], "Jubbal":["Sawara-Kuddu"],
+                           "Rohru":["Select","Dodra Kwar","Tikkar","Khadrala"], "Nerwa":[], "Chirgaon":["Select","Tangnu Romai","Jangla"], "Women P.S. Shimla":[], "Nankhari":[]},
 
-               "Solan": ["Select Sub Station","Parwanoo", "Kasauli", "Sadar Solan", "Kandaghat", "Dharampur", "Arki", "Baga (PSOD)",
-                         "Darlaghat", "Women P.S. Solan ", "Kunihar"],
+               "Solan": {"Parwanoo":["T.P. Bhoj Nagar"], "Kasauli":["Garkhal","Kuthar"], "Sadar Solan":["City Solan","Saproon"], "Kandaghat":["Chail"], "Dharampur":["Subathu","Dagshai"], "Arki":["Sarli at Chhyod"], "Baga (PSOD)":[],
+                         "Darlaghat":[], "Women P.S. Solan":[] , "Kunihar":["Sayari"]},
 
-               "Police.Distt.Baddi": ["Select Sub Station","Nalagarh", "Baddi", "Women P.S. Baddi", "Ramshahar", "Barotiwala", "Manpura"],
+               "Police.Distt.Baddi": {"Nalagarh":["Joghon","Dabhota"], "Baddi":["Vardhman"], "Women P.S. Baddi":["Vardhman"], "Ramshahar":[], "Barotiwala":[], "Manpura":[]},
 
-               "Sirmaur": ["Select Sub Station","Rajgarh", "Pachhad", "Shillai", "Paonta", "Renuka", "Nahan", "Sangrah", "Kala Amb", "Women P.S.Nahan", "Majr", "Pruwala"],
+               "Sirmaur": {"Rajgarh":["Phajauta", "Yashwant Nagar"], "Pachhad":[], "Shillai":["Ronhat"], "Paonta":["Rajban","Singhpura"], "Renuka":["Nohra"], "Nahan":["Kacha Tank","Gunughat"], "Sangrah":["Haripurdhar"], "Kala Amb":["Trilokpur Temple"], "Women P.S.Nahan":[], "Majr":[], "Pruwala":[]},
 
-               "Kinnaur": ["Select Sub Station","Rekong Peo", "Pooh", "Sangla", "Bhawa Nagar", "Tapri", "Moorang"],
+               "Kinnaur": {"Rekong Peo":["T.P. Kalpa"], "Pooh":["Yangthang"], "Sangla":["T.P. Karchham"], "Bhawa Nagar":["Nichar(Sungra)"], "Tapri":["Nichar(Sungra)"], "Moorang":["Nichar(Sungra)"]},
 
-               "Bilaspur": ["Select Sub Station","Bharari", "Ghumarwin", "Talai", "Barmana", "Sadar Bilaspur", "Swarghat", "Kot-Kehloor", "Women P.S.Bilaspur", "Jhandutta"],
+               "Bilaspur": {"Bharari":[], "Ghumarwin":[], "Talai":[], "Barmana":["Nambhol","Kharsi(PSOD)"], "Sadar Bilaspur":["City"], "Swarghat":[], "Kot-Kehloor":["Naina Devi Ji","Golthai"], "Women P.S.Bilaspur":[], "Jhandutta":[]},
 
-               "Mandi": ["Select Sub Station","Sundernagar", "Gohar", "Janjehli", "Karsog", "Jogindernagar", "Sarkaghat", "Dharampur", "Sadar Mandi", "Padhar",
-                         "Balh", "Aut", "BSL Colony Sundernagar", "Women Police Station Mandi", "Hatli-Baldwara", "Dhanotu"],
+               "Mandi": {"Sundernagar":["Slaper","T.P. Dehar"], "Gohar":[], "Janjehli":[], "Karsog":["Pangna"], "Jogindernagar":["Ghatta","Bassi","T.p. Lad-Bhadol"], "Sarkaghat":[], "Dharampur":["Sandhol","Tihra"], "Sadar Mandi":["City Mandi","Pandoh","Kotli"], "Padhar":["Kamand","Tikkan"],
+                         "Balh":["Rewalsar","Gagal"], "Aut":["T.P. Bali Chowki"], "BSL Colony Sundernagar":["Nihri"], "Women Police Station Mandi":[], "Hatli-Baldwara":[], "Dhanotu":[]},
 
-               "Kullu": ["Select Sub Station","Nirmand", "Brow", "Ani", "Manali", "Banjar", "Kullu", "Bhuntar", "Women Police Station at Kullu", "Sainj", "Patli-Kuhal"],
+               "Kullu": {"Nirmand":["Nither"], "Brow":[], "Ani":["Loohri"], "Manali":[], "Banjar":[], "Kullu":["Manikaran", "T.P. Akhara Bazar","T.P. Jari"], "Bhuntar":[], "Women Police Station at Kullu":[], "Sainj":[], "Patli-Kuhal":[]},
 
-               "Lahaul&Spiti": ["Select Sub Station","Kaza", "Keylong", "Udaipur"],
+               "Lahaul&Spiti": {"Kaza":[], "Keylong":["Koksar(Sissu)","Jalman"], "Udaipur":["Tindi"]},
 
-               "Hamirpur": ["Select Sub Station","Barsar", "Sadar", "Bhoranj", "Nadaun", "Sujanpur", "Women P.S. Hamirpur"],
+               "Hamirpur": {"Barsar":["Deothsidh"], "Sadar":["Tauni Devi"], "Bhoranj":["Jahu","Awahdevi"], "Nadaun":[], "Sujanpur":[], "Women P.S. Hamirpur":[]},
 
-               "Chamba": ["Select Sub Station","Khairi", "Dalhousie", "Chowari", "Tissa", "Kihar", "Sadar", "Bharmaur", "Pangi", "Women P.S. Chamba"],
+               "Chamba": {"Khairi":["Churah"], "Dalhousie":["Dalhousie","Baloon","T.P. Banikhet"], "Chowari":["Sihunta","Bakloh"], "Tissa":["T.P. Nakror"], "Kihar":["Surgani","Sanghani","T.P. Salooni"], "Sadar":["City Chambla","Drada","T.P. Sultanpur"], "Bharmaur":["Holi","Kutehr(PSOD Not)","T.P. Gehra"], "Pangi":["Purthy","Dharwas"], "Women P.S. Chamba":[]},
 
-               "Kangra": ["Select Sub Station","Palampur", "Panchrukhi", "Lambagaon", "Nurpur", "Indora", "Damtal", "Dehra", "Jawalaji", "Jawali",
-                          "Baijnath", "Kangra", "Nagrota Bagwan", "Dharamshala", "Mecleodganj", "Shahpur", "Haripur", "Bhawarna", "Fatehpur",
-                          "Women P.S.Dharamshala", "P.S.Khundian", "Rakkar", "Gaggal"],
+               "Kangra": {"Palampur":[], "Panchrukhi":[], "Lambagaon":["T.P. Alampur","T.P. Thural"], "Nurpur":["Sadwan","T.P. Rehan","T.P. Gangath","T.P. Kandwal"], "Indora":["Dhangupir", "Thakurwada"], "Damtal":["Dhangupir", "Thakurwada"], "Dehra":["Sansarpur Terrace","Dadasiba"], "Jawalaji":[], "Jawali":["Kotla", "T.P. Nagrota Surian"],
+                          "Baijnath":["Chadhiyar","Multhan","Bir"], "Kangra":["Tnada","T.P. Lanj"], "Nagrota Bagwan":["Baroh"], "Dharamshala":["Yol"], "Mecleodganj":[], "Shahpur":["T.P. Darini"], "Haripur":["Ranital"], "Bhawarna":["T.P. Dheera"], "Fatehpur":["T.P. Rey"],
+                          "Women P.S.Dharamshala":[], "P.S.Khundian":["Majheen","Lagru"], "Rakkar":[], "Gaggal":[]},
 
-               "Una": ["Select Sub Station","Sadar Una", "Haroli", "Bangana", "Amb", "Gagret", "Chintpurni", "Women P.S. Una"],
+               "Una": {"Sadar Una":["Mehatpur","City Una"], "Haroli":["Santokhgarh","Pandoga","Tahliwal"], "Bangana":["Jol"], "Amb":[], "Gagret":["Daulatpur"], "Chintpurni":[], "Women P.S. Una":[]},
 
-               "Traffic, Tourist and Railway": ["Select Sub Station","GRPS Shimla", "GRPS Kangra"],
+               "Traffic, Tourist and Railway": {"GRPS Shimla":["GROP Kandaghat"], "GRPS Kangra":["GROP Una","GROP Kandori"]},
 
-               "StateCID" : ["Select Sub Station","State CID Shimla","Cyber Crime Shimla"]
+               "StateCID" : {"State CID Shimla":[],"Cyber Crime Shimla":[]}
 
                }
 
-battalion = ["IRBN Bangarh(Una)", "IRBN Sakoh(Kangra)", "IRBN Pandoh(Mandi)",
-             "IRBN Jangal Beri(Hamirpur)", "IRBN Bassi(Bilaspur)", "IRBN Kolar(Sirmaur)"]
-
-# {
+battalion = ["1st HPABN Junga(Shimla)","1st IRBN Bangarh(Una)", "2nd IRBN Sakoh(Kangra)", "3rd IRBN Pandoh(Mandi)",
+             "4th IRBN Jangal Beri(Hamirpur)", "5th IRBN Bassi(Bilaspur)", "6th IRBN Kolar(Sirmaur)"]
 

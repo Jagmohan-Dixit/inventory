@@ -29,11 +29,24 @@ class AdditemForm(FlaskForm):
     quantity = IntegerField("quantity", validators=[dr])
     rateperitem = StringField("rateperitem", validators=[dr])
     totalamount = StringField("totalamount", validators=[dr])
+    warranty = IntegerField("warranty", validators=[dr])
     submit = SubmitField("Add")
 
+class UpdateItemForm(FlaskForm):
+    productname = StringField("productname", validators=[dr])
+    dateofsurvey = DateField("dateofsurvey", validators=[dr])
+    billno = StringField("billno", validators=[dr], render_kw={"readonly": True})
+    nameoffirm = StringField("nameoffirm", validators=[dr], render_kw={"readonly": True})
+    quantity = IntegerField("quantity", validators=[dr])
+    rateperitem = StringField("rateperitem", validators=[dr])
+    totalamount = StringField("totalamount", validators=[dr])
+    warranty = IntegerField("warranty", validators=[dr])
+    submit = SubmitField("Add")
 
 class SearchForm(FlaskForm):
     search = StringField("search",  render_kw={"placeholder":"Search inventory..."})
+
+
 
 
 
