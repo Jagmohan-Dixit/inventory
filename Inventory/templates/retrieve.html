@@ -85,7 +85,7 @@ function myFunction3(select) {
         document.getElementById("Substation").style.display = "none";
     } else if(res.length > 0){
         document.getElementById("Substation").style.display = "initial";
-    } 
+    }
 
     document.getElementById('select5').innerHTML = `<option value="1" selected>Select Sub Station</option>`;
     for (key in res) {
@@ -114,10 +114,10 @@ function myFunction3(select) {
 
 <div class="d-flex flex-start  mb-0 content-outer">
     <div class="current-tab-name text-center">
-        <h6 class="mt-2">Issued To</h6>
+        <h6 class="mt-2">Retrieve</h6>
     </div>
 </div>
-<form action="{{url_for('issuedto')}}" method="POST" class="current-inner">
+<form action="{{url_for('retrieving')}}" method="POST" class="current-inner">
     {% if error %}
     <div class="alert alert-danger" role="alert">
         {{error}}
@@ -134,13 +134,12 @@ function myFunction3(select) {
                     <input type="text" disabled class="form-control d-block" value={{session['productname']}}>
                 </div>
             </div>
-
             <div class="form-div p-4 m-2">
                 <div class="label-div">
-                    From
+                    To
                 </div>
                 <div class="input-div">
-                    <input type="text" class="form-control d-block" name="issuedfrom" required>
+                    <input type="text" class="form-control d-block" name="retrievedTo" required>
                 </div>
             </div>
 
@@ -234,8 +233,10 @@ function myFunction3(select) {
                 </div>
             </div>
         </div>
+
+
         <div style="margin-bottom: 0rem;">
-            <button type="submit" class="m-4">Assign</button>
+            <button type="submit" class="m-4">Retrieve</button>
         </div>
     </div>
 

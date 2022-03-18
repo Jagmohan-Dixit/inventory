@@ -1,5 +1,7 @@
 {% extends 'base.html'%}
 {% block content %}
+
+
 <div class="d-flex flex-start  mb-0 content-outer">
   <div class="current-tab-name text-center">
     <h6 class="mt-2">Main Ledger</h6>
@@ -20,6 +22,7 @@
         </div>
       </div>
     </form>
+    
 {% if data %}
 
     <div class="table-div">
@@ -34,8 +37,11 @@
             <th scope="col">Item Name</th>
             <th scope="col">Date of Survey</th>
             <th scope="col">Remaining Items</th>
-            <th scope="col"><span class="p-3"></span>Edit</th>
-            <th class="text-center" scope="col"><span class="p-3" ></span>Assigning Details</th>
+            <th scope="col"><span class="p-3"></span>Issue</th>
+            <th scope="col"><span class="p-3"></span>Retrieve</th>
+            <th class="text-center" scope="col"><span class="p-3" ></span>Issuing Details</th>
+            <th class="text-center" scope="col"><span class="p-3" ></span>Retrieving Details</th>
+            <th class="text-center" scope="col"><span class="p-3" ></span>Edit Product</th>
           </tr>
         </thead>
           <tbody class="table-body">
@@ -52,15 +58,42 @@
                   <input type="hidden" name="product" value={{item[0]}}>
                   <input type="hidden" name="productname" value={{item[2]}}>
                   <input type="hidden" name="type" value='assign'>
-                  <button type="submit" class="p-1 w-75">Assign</button>
+                  <button type="submit" class="p-1 w-75">Issue</button>
               </form>
-
             </td>
+            
+              <td class="text-center">
+                <form action="{{url_for('issueing')}}" method="POST">
+                    <input type="hidden" name="quantity" value={{item[6]}}>
+                    <input type="hidden" name="product" value={{item[0]}}>
+                    <input type="hidden" name="productname" value={{item[2]}}>
+                    <input type="hidden" name="type" value='retrieve'>
+                    <button type="submit" class="p-1 w-75">Retrieve</button>
+                </form>
+              </td>
+
+            
               <td class="text-center">
                   <form method="POST" action="{{url_for('issueing')}}">
                     <input type="hidden" name="product" value={{item[2]}}>
                     <input type="hidden" name="type" value='assignhistory'>
-                    <button type="submit" class="p-1 w-50">Assigned</button>
+                    <button type="submit" class="p-1 w-50">Issued</button>
+                </form>
+              </td>
+              <td class="text-center">
+                  <form method="POST" action="{{url_for('issueing')}}">
+                    <input type="hidden" name="productname" value={{item[2]}}>
+                    <input type="hidden" name="product" value={{item[0]}}>
+                    <input type="hidden" name="type" value='retrievehistory'>
+                    <button type="submit" class="p-1 w-50">Retrieved</button>
+                </form>
+              </td>
+              <td class="text-center">
+                  <form method="POST" action="{{url_for('issueing')}}">
+                    <input type="hidden" name="productname" value={{item[2]}}>
+                    <input type="hidden" name="product" value={{item[0]}}>
+                    <input type="hidden" name="type" value='updateItem'>
+                    <button type="submit" class="p-1 w-50">Edit</button>
                 </form>
               </td>
           </tr>
@@ -76,6 +109,11 @@
     </form></div>
     {% else %}
     <center><h1 class="p-4">No Record Found!</h1></center>
+    <div>
+      <center>
+        <a href="{{url_for('mainledger')}}"><button>Go back</button></a>
+      </center>
+    </div>
     {% endif %}
   </div>
 </div>
