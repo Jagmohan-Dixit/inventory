@@ -55,7 +55,7 @@
                 <div class="mb-3 v-nav-button">
                     <a href="{{url_for('additem')}}" data-toggle="tooltip" data-placement="right" title="Add Items"><img
                             src="{{url_for('static', filename='img/icons/add-icon.svg')}}" /></a>
-                </div>
+                </div> </div>
 
             {% if session['login'] %}
             <div class=" mb-3 v-nav-button">
@@ -63,8 +63,6 @@
                     <img src="{{url_for('static', filename='img/icons/logout.svg')}}" /></a>
             </div>
             {% endif %}
-            </div>
-
 
             <div class="  v-nav-button">
                 <img src="{{url_for('static', filename='img/logo.svg')}}" width="100%" height="100%"
@@ -75,9 +73,6 @@
             {% block content %}
             {% endblock %}
         </div>
-
-    </div>
-
 </body>
 
 </html>
