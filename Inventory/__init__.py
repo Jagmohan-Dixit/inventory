@@ -1,9 +1,8 @@
 import sys
-
 from flask import Flask, redirect, render_template, request, json, url_for, jsonify, session, send_file
 import sqlite3 as sql
 from Inventory.forms import LoginForm, AdditemForm, SearchForm, RegisterForm, UpdateItemForm
-import os, random
+import random
 from Inventory.data import district, stationdata, battalion
 
 app = Flask(__name__)
@@ -75,7 +74,7 @@ def retrieving():
                                            error=f'This product was not issued to {station} from {retrievedTo}')
 
 
-            if prod[0][-1] < int(qty):
+            if prod[-1][-1] < int(qty):
                 return render_template('retrieve.html', count=1, data=stationdata, battalions=battalion,
                                        error="Retriving quantity cannot be greater than issued quantity")
 
@@ -404,11 +403,6 @@ def register():
     return render_template('register.html', form=form)
 
 
-@app.route('/database_download/<filename>')
-def database_download(filename):
-    return send_file(filename, as_attachment=True)
-
-
 @app.route('/district', methods=["POST","GET"])
 def district():
     district = request.get_json('name')
@@ -420,42 +414,4 @@ def subdistrict():
     data = request.get_json('district')
     session['district'] = stationdata[data['district']][data['subdistrict']]
     return jsonify(status="success", data=session['district'])
-#
-# @app.context_processor
-# def override_url_for():
-#     return dict(url_for=dated_url_for)
-#
-#
-#
-# def dated_url_for(endpoint, **values):
-#     if endpoint == 'static':
-#         filename = values.get('filename', None)
-#         if filename:
-#             file_path = os.path.join(app.root_path,
-#                                  endpoint, filename)
-#             values['q'] = int(os.stat(file_path).st_mtime)
-#     return url_for(endpoint, **values)
 
-
-@app.route('/edit', methods=["POST","GET"])
-def edit():  
-    conn = sql.connect("database.db")
-    # conn.execute('CREATE TABLE logindata (email STRING, password STRING)')
-    conn.execute('DROP TABLE IF EXISTS issued')
-    cur = conn.cursor()
-    conn.execute('''CREATE TABLE issued(
-            issuedBy STRING,
-            issuedfrom STRING, 
-            productname STRING, 
-            district STRING, 
-            battalion STRING, 
-            station STRING, 
-            substation STRING, 
-            quantity STRING)'''
-        )
-    
-    # cur.execute('INSERT INTO logindata (email, password) VALUES (?,?)', ("jagmohandixit686@gmail.com", "11111111"))
-    # cur.execute('INSERT INTO logindata (email, password) VALUES (?,?)', ("naiktanvi30@gmail.com", "11111111"))
-    conn.commit()
-    conn.close()
-    return redirect(url_for('mainledger')) 
